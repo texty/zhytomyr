@@ -1,0 +1,156 @@
+/* ======== HEADER ======== */
+
+
+.logo {
+    //background-color: rgba(255, 255, 255, 0.9);
+    position: fixed;
+    float: left;
+    margin: 15px 0px 0px 15px;
+    z-index: 1000;
+}
+
+.social-icons {
+  position: fixed;
+  padding-top: 10px;
+  z-index: 1000;
+  right: 15px;
+}
+
+.fa-twitter,
+.fa-facebook {
+  //background-color:rgba(187, 189, 192, 0.9);
+  padding: 5px;
+  color: #ddd;
+  float: right;
+  margin: 5px 10px 0px 0px;
+  cursor: pointer;
+  &:hover{
+    color: #ffffff;
+  }
+}
+
+.header-container {
+
+  h1 {
+    text-align: left;
+    font-size: 3.6em;
+    letter-spacing: 0.03em;
+    line-height: 1.4;
+  }
+
+
+  h2 {
+    font-size: 2.0em;
+    margin-left: 10%;
+  }
+
+  p.subtitle {
+    width: auto;
+    //line-height: 2.2;
+    margin-left: 0;
+    padding-top: 2vw;
+    font-size: 2em;
+    font-weight: 300;
+
+    margin-top: 19vw;
+
+    @media #{$brk-medium} {
+      margin-top: 20vw;
+    }
+
+    @media #{$brk-narrow} {
+      margin-top: 22vw;
+    }
+
+    @media #{$brk-spnarrow} {
+      margin-top: 8vw;
+    }
+  }
+
+
+  .credits {
+
+    h6 {
+      font-size: 1.2em;
+      line-height: 1.9;
+
+      b {
+        color: #ccc;
+      }
+    }
+
+
+
+    line-height: 1.5em;
+    font-weight: 300;
+
+    & span {
+      font-weight: 700;
+    }
+    &.date {
+      margin-top:1em;
+      font-size:1.0em;
+      font-weight:300;
+    }
+  }
+
+  .header {
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    margin-top: -37vw;
+
+    @media #{$brk-spnarrow} {
+      margin-top: -2vw;
+    }
+  }
+
+  @media (min-width: 1281px) {
+    .header {
+      //background-color: #f0f0f0;
+      //height: 450px;
+    }
+
+  }
+
+  @media (min-width: 768px) and (max-width: 1280px) {
+    .header {
+      //background-color: #f0f0f0;
+
+    }
+  }
+
+  @media (min-width: 320px) and (max-width: 767px) {
+    .mobheader {
+      //margin-top: -7%;
+    }
+  }
+
+
+  @media (max-width: 800px) {
+    //  #header-text {
+    //
+    //    margin-left: 8%;
+    //    margin-right: 2%;
+    //    top: 12%;}
+    //
+    //    h3 {
+    //      padding-top: 10px;
+    //    }
+  }
+
+  .header-text {
+    position: relative;
+    //margin-left: 12%;
+    //margin-right: 10%;
+    //margin-top: 80px;
+  }
+
+  video {
+    margin-top: 20px;
+    height: 25vw;
+    padding: 0;
+    min-width: 250px;
+    object-fit: cover;
+  }
+}

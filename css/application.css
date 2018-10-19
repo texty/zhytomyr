@@ -26,7 +26,7 @@ a.dotted {
   background-color: #f95d20;
   padding-top: 2em;
   padding-bottom: 2em;
-  margin-bottom: 5em; }
+  margin-bottom: 2em; }
   .header-block .header-text-block {
     max-width: 600px; }
   .header-block h3 {
@@ -78,5 +78,23 @@ h6.header-badge {
     color: #424242; }
     .share-btn:hover i {
       border-color: #424242; }
+
+.swarm-svg-container p {
+  margin-bottom: 0;
+  padding-top: 0.7em; }
+
+svg {
+  shape-rendering: crispEdges; }
+  svg circle {
+    fill: red;
+    stroke: none;
+    overflow: visible;
+    shape-rendering: auto; }
+  svg .axis--x line, svg .axis--x path {
+    stroke: gray; }
+  svg .axis--x line {
+    stroke-dasharray: 2,2; }
+  svg .axis--x path {
+    stroke: none; }
 
 /*# sourceMappingURL=application.css.map */

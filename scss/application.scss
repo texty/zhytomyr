@@ -44,7 +44,7 @@ a.dotted {
     font-weight: 800;
   }
 
-  margin-bottom: 5em;
+  margin-bottom: 2em;
 
   a.dotted {
     color: #afd2fa;
@@ -113,5 +113,43 @@ h6.header-badge {
     i {
       border-color: $main-text;
     }
+  }
+}
+
+
+//div {
+//  border: 1px solid gray;
+//}
+
+.swarm-svg-container {
+  p {
+    margin-bottom: 0;
+    padding-top: 0.7em;
+  }
+
+}
+
+svg {
+  shape-rendering: crispEdges;
+
+  circle {
+    fill: red;
+    stroke: none;
+    //opacity: 0.5;
+    overflow: visible;
+    shape-rendering: auto;
+  }
+
+
+  .axis--x {
+    line, path {
+      stroke: gray;
+    }
+
+    line {
+      stroke-dasharray: 2,2;
+    }
+
+    path {stroke: none}
   }
 }

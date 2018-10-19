@@ -46,26 +46,39 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
-            <!--<h6 class="header-badge">Кількість реєстрацій за місяць</h6>-->
+        <div class="row">
+            <div class="col-12">Дата: 06.08.2018</div>
+            <div class="col-12">Виберіть маршрут</div>
+
+            <div class="col-12">
+                <ul class="nav nav-pills" id="route-pills">
+                </ul>
+
+            </div>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
-            <div id="total_chart_legend"></div>
+        </div>
+
+
+    <div class="row">
+        <div class="col-6">
+            <div class="row" id="small-multiples">
+
+            </div>
+        </div>
+        <div class="col-6">
+            <div style="height: 100vh; background: lightgray">
+                Карта
+            </div>
         </div>
     </div>
 
-    <div class="row justify-content-center" style="margin-top: 5em;">
 
-        <div class="col-12 col-md-8 col-lg-6">
-            <!--<p>Вперше транспортний засіб потрапляє в Єдиний державний реєстр МВС стосовно зареєстрованих транспортних засобів та їх власників під час його першої реєстрації власником у територіальному сервісному центрі МВС. Далі в реєстрі відображаються всі зміни, що відбуваються з автомобілем: зміна власника, номерного знака, здійснення переобладнання тощо. Сервіс відкритих даних не містить конфіденційної інформації, але при цьому надає можливість ознайомитися з технічними характеристиками зареєстрованих авто. Завдяки сервісу можна порівнювати дані щодо реєстрації транспортних засобів за регіоном, датою випуску, маркою та моделлю, типом палива, кольором та ін.-->
-            <!--</p>-->
-
-        </div>
-    </div>
 </div>
+
+
 
 <!--<div class="container footer">-->
     <!--<div class="credits">-->
@@ -95,6 +108,7 @@
 
 
 <script src="lib/d3.v4.min.js"></script>
+<script src="https://rawgit.com/Kcnarf/d3-beeswarm/master/build/d3-beeswarm.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="lib/bootstrap.min.js"></script>
 
@@ -104,6 +118,7 @@
 <!--<script src="lib/Sortable.js"></script>-->
 
 <script src="lib/share-behavior.js"></script>
+<script src="js/beechart.js"></script>
 <script src="js/main.js"></script>
 
 <script type="text/javascript">

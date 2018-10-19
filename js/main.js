@@ -44,12 +44,16 @@ d3.csv("data/transactions_geo/2018-08-06.csv", function(err, data) {
             d3.select(this).classed('active', true);
             console.log(d)
             renderRoute(d)
-
-
         });
 
-
-        // return ;
+    d3.select("#route-pills")
+        .select("li.nav-item a.nav-link")
+        .each(function(d){
+            pills.classed("active", false);
+            d3.select(this).classed('active', true);
+            console.log(d)
+            renderRoute(d)
+        });
 
 
 
@@ -67,12 +71,8 @@ d3.csv("data/transactions_geo/2018-08-06.csv", function(err, data) {
             d.cash = d.values.filter(function(dd){return dd.KIND=="14"}).length;
             d.bank = d.values.filter(function(dd){return dd.KIND=="32"}).length;
             d.pro = d.values.filter(function(dd){return ['16', '17'].indexOf(dd.KIND) >= 0}).length;
+        });
 
-
-        })
-
-
-        console.log(nested)
 
         var small_multiples_container = d3.select("#small-multiples")
         small_multiples_container.selectAll('*').remove();
@@ -108,9 +108,6 @@ d3.csv("data/transactions_geo/2018-08-06.csv", function(err, data) {
                 d3.select(this).call(chart);
             });
     }
-
-
-
 });
 
 

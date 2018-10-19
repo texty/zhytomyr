@@ -48,29 +48,38 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="row">
-            <div class="col-12">Дата: 06.08.2018</div>
-            <div class="col-12">Виберіть маршрут</div>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12">Дата: 06.08.2018</div>
+                <div class="col-12">Виберіть маршрут</div>
 
-            <div class="col-12">
-                <ul class="nav nav-pills" id="route-pills">
-                </ul>
+                <div class="col-12">
+                    <ul class="nav nav-pills" id="route-pills" style="margin-bottom: 1em;">
+                    </ul>
 
+                </div>
             </div>
         </div>
-
-        </div>
+    </div>
 
 
     <div class="row">
         <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    Кожна точка - одна транзакція
+
+                </div>
+            </div>
             <div class="row" id="small-multiples">
 
             </div>
         </div>
         <div class="col-6">
-            <div style="height: 100vh; background: lightgray">
-                Карта
+            <div style="height: 100vh; background: lightgray" id="map-container">
+                <div id="map">
+
+                </div>
             </div>
         </div>
     </div>

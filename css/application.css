@@ -100,4 +100,7 @@ svg {
   svg .axis--x path {
     stroke: none; }
 
+#map {
+  height: 100%; }
+
 /*# sourceMappingURL=application.css.map */

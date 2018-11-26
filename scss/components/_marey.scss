@@ -2,8 +2,8 @@
 #marey-container {
   svg {
     shape-rendering: crispEdges;
-    overflow: hidden;
-    //overflow: visible;
+    //overflow: hidden;
+    overflow: visible;
 
 
     .axis {
@@ -24,6 +24,7 @@
       fill-opacity: 0.3;
       stroke: white;
       stroke-opacity: 0.7;
+      shape-rendering: geometricPrecision;
     }
 
 
@@ -36,5 +37,8 @@
       //stroke: none;
     }
 
+    text {
+      fill: white;
+    }
   }
 }

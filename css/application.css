@@ -5,6 +5,61 @@ body {
 p {
   font-size: 1em; }
 
+.swarm-svg-container p {
+  margin-bottom: 0;
+  padding-top: 0.7em; }
+.swarm-svg-container span.tracker {
+  color: #6d368b;
+  font-weight: 600; }
+.swarm-svg-container .transactions {
+  font-weight: bold; }
+.swarm-svg-container span {
+  font-size: 0.85em; }
+.swarm-svg-container svg {
+  shape-rendering: crispEdges;
+  overflow: visible !important; }
+  .swarm-svg-container svg circle {
+    fill: red;
+    stroke: none;
+    shape-rendering: auto; }
+  .swarm-svg-container svg .axis--x line, .swarm-svg-container svg .axis--x path {
+    stroke: gray; }
+  .swarm-svg-container svg .axis--x line {
+    stroke-dasharray: 2,2; }
+  .swarm-svg-container svg .axis--x path {
+    stroke: none; }
+  .swarm-svg-container svg rect.bar {
+    fill: #6d368b;
+    stroke: none; }
+  .swarm-svg-container svg rect.period {
+    fill: #dbff79;
+    stroke: none; }
+  .swarm-svg-container svg rect.out-period {
+    fill: #bbbbbb;
+    stroke: none; }
+
+#marey-container svg {
+  shape-rendering: crispEdges;
+  overflow: visible; }
+  #marey-container svg .axis line, #marey-container svg .axis path {
+    stroke: gray; }
+  #marey-container svg .axis--x text {
+    text-anchor: end; }
+  #marey-container svg circle {
+    fill: #f6b033;
+    fill-opacity: 0.3;
+    stroke: white;
+    stroke-opacity: 0.7;
+    shape-rendering: geometricPrecision; }
+  #marey-container svg path {
+    shape-rendering: geometricPrecision;
+    fill: none;
+    stroke-width: 1px;
+    stroke: white;
+    stroke-opacity: 0.1; }
+  #marey-container svg text {
+    fill: white; }
+
 body {
   color: #424242; }
 
@@ -14,16 +69,18 @@ h3 {
 svg text {
   fill: #424242; }
 
+a {
+  color: #6d368b; }
+
 a.dotted {
-  border-bottom: 1px dotted;
-  color: #5893fa; }
+  border-bottom: 1px dotted; }
   a.dotted:hover {
     text-decoration: none;
     color: #FAA12D; }
 
 .header-block {
   color: white;
-  background-color: #f95d20;
+  background-color: #6d368b;
   padding-top: 2em;
   padding-bottom: 2em;
   margin-bottom: 2em; }
@@ -38,8 +95,8 @@ a.dotted {
 h6.header-badge {
   display: inline-block;
   text-transform: uppercase;
-  color: #f95d20;
-  border: 1px solid #f95d20;
+  color: #6d368b;
+  border: 1px solid #6d368b;
   padding-left: 0.2em;
   padding-right: 0.2em;
   margin-right: 0.3em; }
@@ -79,28 +136,34 @@ h6.header-badge {
     .share-btn:hover i {
       border-color: #424242; }
 
-.swarm-svg-container p {
-  margin-bottom: 0;
-  padding-top: 0.7em; }
-.swarm-svg-container span.tracker {
-  color: #c69500;
-  font-weight: 600; }
-
-svg {
-  shape-rendering: crispEdges; }
-  svg circle {
-    fill: red;
-    stroke: none;
-    overflow: visible;
-    shape-rendering: auto; }
-  svg .axis--x line, svg .axis--x path {
-    stroke: gray; }
-  svg .axis--x line {
-    stroke-dasharray: 2,2; }
-  svg .axis--x path {
-    stroke: none; }
-
 #map {
   height: 100%; }
+
+#route-pills .nav-link.active, #route-pills .show > .nav-link {
+  background-color: #6d368b; }
+
+.route-summary-header {
+  width: 100%;
+  background-color: #6d368b;
+  color: white;
+  font-family: "Open Sans Condensed"; }
+
+.bg-gps {
+  background-color: #dbff79; }
+
+.bg-out-of-route {
+  background-color: #bbb; }
+
+.hidden {
+  display: none !important; }
+
+.marey-container {
+  background: #6d368b;
+  color: white;
+  padding-top: 2em; }
+
+#marey-container {
+  margin-top: 3em;
+  margin-bottom: 7em; }
 
 /*# sourceMappingURL=application.css.map */

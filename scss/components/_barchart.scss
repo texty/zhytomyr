@@ -1,0 +1,61 @@
+.swarm-svg-container {
+  p {
+    margin-bottom: 0;
+    padding-top: 0.7em;
+  }
+
+  span.tracker {
+    color: $color1;
+    font-weight:600;
+  }
+
+  .transactions {
+    font-weight: bold;
+  }
+
+  span {
+    font-size: 0.85em;
+  }
+
+  svg {
+    shape-rendering: crispEdges;
+    //overflow: hidden;
+    overflow: visible !important;
+
+    circle {
+      fill: red;
+      stroke: none;
+      //opacity: 0.5;
+      shape-rendering: auto;
+    }
+
+
+    .axis--x {
+      line, path {
+        stroke: gray;
+      }
+
+      line {
+        stroke-dasharray: 2,2;
+      }
+
+      path {stroke: none}
+    }
+
+    rect.bar {
+      fill: $color1;
+      stroke: none;
+    }
+
+    rect.period {
+      fill: #dbff79;
+      stroke: none;
+    }
+
+    rect.out-period {
+      fill: #bbbbbb;
+      stroke: none;
+    }
+  }
+}
+

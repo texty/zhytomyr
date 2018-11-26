@@ -8,8 +8,6 @@ d3.queue()
     .await(function(err, data, stops){
         if (err) throw err;
 
-
-
         data.forEach(r => {
             r.direction = +r.direction;
             r.transactions = +r.transactions;
@@ -28,20 +26,21 @@ d3.queue()
 
         stops = stops.filter(r => r.direction == 0);
 
+        var stops_map = d3.nest()
+            .key(d => d.route)
+            .map(stops);
 
         var route_data = d3.nest()
-            .key(row => row.group)
+            .key(row => row.route)
+            .map(data);
 
-
-            .entries(data);
-
-        console.log(data);
-        console.log(route_data);
-        console.log(stops);
+        // console.log(data);
+        // console.log(route_data);
+        // console.log(stops);
 
         var marey_chart = marey()
-            .data(data)
-            .stops_data(stops);
+            .data(route_data.get('7A').filter(d=>d.direction == 0))
+            .stops_data(stops_map.get('7A'));
         
         
         d3.select("#marey-svg").call(marey_chart);

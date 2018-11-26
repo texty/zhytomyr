@@ -20,9 +20,9 @@ p {
   #marey-container svg path {
     shape-rendering: geometricPrecision;
     fill: none;
-    stroke-width: 0.5px;
+    stroke-width: 1px;
     stroke: white;
-    stroke-opacity: 0.2; }
+    stroke-opacity: 0.1; }
 
 body {
   color: #fdfdfd;

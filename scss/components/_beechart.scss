@@ -1,0 +1,54 @@
+.swarm-svg-container {
+  p {
+    margin-bottom: 0;
+    padding-top: 0.7em;
+  }
+
+  span.tracker {
+    color: #c69500;
+    font-weight:600;
+  }
+
+  span {
+    font-size: 0.7em;
+
+  }
+  //
+  //.transactions {
+  //  color: blue;
+  //}
+  //
+  //.bank {
+  //  color: green;
+  //}
+  //
+  //.transactions {
+  //  color: red;
+  //}
+
+  svg {
+    shape-rendering: crispEdges;
+
+    circle {
+      fill: red;
+      stroke: none;
+      //opacity: 0.5;
+      overflow: visible;
+      shape-rendering: auto;
+    }
+
+
+    .axis--x {
+      line, path {
+        stroke: gray;
+      }
+
+      line {
+        stroke-dasharray: 2,2;
+      }
+
+      path {stroke: none}
+    }
+  }
+}
+

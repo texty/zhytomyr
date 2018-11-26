@@ -2,13 +2,15 @@ var map = (function () {
 
     var module = {};
 
-    var mmapp = L.map('map').setView([50.2557664, 28.653982], 13);
+    var mmapp = L.map('map', {maxZoom: 15}).setView([50.2227664, 28.673982], 12);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
         attribution: 'Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL. ',
         maxZoom: 18,
         id: 'background'
     }).addTo(mmapp);
+
+    var timeFormat = d3.timeFormat("%Y-%m-%d %H:%M:%S");
 
     // https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png
 
@@ -22,7 +24,7 @@ var map = (function () {
     };
 
     module.drawPoints = function(transactions) {
-        console.log(transactions)
+
         if (points) mmapp.removeLayer(points);
 
         var geojson = [];
@@ -37,15 +39,17 @@ var map = (function () {
                    type: "Point"
                },
                properties: {
-
+                   on_route: tr.on_route,
+                   datetime: tr.datetime,
+                   vehicle: tr.vehicle
                }
            })
         });
 
         var geojsonMarkerOptions = {
             radius: 4,
-            fillColor: "#ff7800",
-            color: "#000",
+            fillColor: "#6d368b",
+            color: "white",
             weight: 1,
             opacity: 1,
             fillOpacity: 0.8
@@ -53,13 +57,35 @@ var map = (function () {
 
         points = L.geoJSON(geojson, {
             pointToLayer: function (feature, latlng) {
-                return L.circleMarker(latlng, geojsonMarkerOptions);
+                return L.circleMarker(latlng, {
+                    radius: 4,
+                    fillColor: feature.properties.on_route=='1' ? "#6d368b" : 'grey',
+                    color: "white",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+            },
+            onEachFeature: function(feature, layer) {
+                layer.bindPopup(renderPopup(feature));
             }
+
         }).addTo(mmapp);
+
+        points.on("click", function(e){
+            console.log(e.layer)
+
+        })
 
     };
 
     window.mmapp = mmapp;
+
+
+    function renderPopup(feature) {
+        return "<span>№ " + feature.properties.vehicle + "</span>" +
+                "<br><span>Час: " + timeFormat(feature.properties.datetime) + "</span>"
+    }
 
     return module;
 })();

@@ -58,13 +58,22 @@
     <div class="row">
         <div class="col-12">
             <div class="row">
-                <div class="col-12">Дата: 06.08.2018</div>
-                <div class="col-12">Виберіть маршрут</div>
+                <!--<div class="col-8">Виберіть маршрут</div>-->
+                <!--<div class="col-4">Дата: 06.08.2018</div>-->
 
-                <div class="col-12">
+                <div class="col-4">
                     <ul class="nav nav-pills" id="route-pills" style="margin-bottom: 1em;">
                     </ul>
+                    <div class="">
+                        <button id="change-chart" class="btn-info"> Натисніть щоб досліджувати рух по зупинках</button>
+                    </div>
+                </div>
 
+                <div class="col-4">
+                    <p>Клікайте на номер маршруту зліва. Графіки нижче показують кількість транзакцій впродовж дня по усьому маршруту та по кожній машині окремо</p>
+                    <p><span class="bg-gps">зеленим</span> кольором показані інтервали, коли від машини надходив сигнал GPS <br>
+                        <span class="bg-out-of-route">сірим</span> кольором показані інтервали часу, коли машина знаходилась не на маршруті
+                    </p>
                 </div>
             </div>
         </div>
@@ -72,18 +81,51 @@
 
 
     <div class="row">
-        <div class="col-6">
+        <div class="col-8">
             <div class="row">
                 <div class="col-12">
-                    Кожна точка - одна транзакція
+                    <div class="row">
+                        <div class="route-summary col-12">
+                            <div class="row">
+                                <div class="col-12 route-summary-header">
+                                    <h4>Всього по маршруту №<span class="route-number-text">1</span></h4>
+                                </div>
+                            </div>
+
+                            <div id="route-total-container" class="row swarm-svg-container">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--Кожна точка - одна транзакція-->
+                </div>
+            </div>
+
+            <div class="bars-container">
+                <div class="row">
+                    <div class="col-12 route-summary-header">
+                        <h4>По машинах</h4>
+                    </div>
+                </div>
+
+                <div class="row" id="small-multiples">
 
                 </div>
             </div>
-            <div class="row" id="small-multiples">
 
+            <div class="row marey-container hidden">
+                <div class="col-6">
+                    <p>Одна лінія відповідає одному проїзду по маршруту. Площа кола залежить від кількості транзакцій на зупинці</p>
+                </div>
+
+
+                <div class="col-12" id="marey-container">
+                    <svg id="marey-svg" width="100%"  data-min-height="850"></svg>
+                </div>
             </div>
         </div>
-        <div class="col-6">
+
+        <div class="col-4" style="padding-left: 0; padding-right: 0">
             <div style="height: 100vh; background: lightgray" id="map-container">
                 <div id="map">
 
@@ -124,19 +166,80 @@
 
 
 
+<script type="text/x-handlebars-template" id="vehicle-stats-template">
+    <div class="parking-container" style="width: {{size.w}}px; margin: 0 auto;">
+
+        <div class="parking-description">
+            <ul class="breadcrumb">
+                {{#each p.days}}
+                {{#ifCond this.date @root.day.date}}
+                <li class="active"><a href="javascript:void(0)">{{this.formatted.date}}</a></li>
+                {{else}}
+                <li><a href="javascript:void(0)">{{this.formatted.date}}</a></li>
+                {{/ifCond}}
+                {{/each}}
+            </ul>
+
+            <h2>{{p.name}}</h2>
+
+            <div class="numbers-table display-table">
+                <div class="display-row">
+                    <div class="number-left display-cell">{{day.formatted.declared}}</div>
+                    <div class="caption-right display-cell">Офіційно зібрано <span> (з 9:00 до 18:00)</span></div>
+                </div>
+
+                <div class="display-row">
+                    <div class="number-left display-cell">{{day.formatted.working_day_income}}</div>
+                    <div class="caption-right display-cell">Можна було зібрати</div>
+                </div>
+
+                <div class="display-row">
+                    <div class="number-left display-cell">{{day.formatted.extended_working_day_income}}</div>
+                    <div class="caption-right display-cell">Можна зібрати якщо розширити час роботи <span>(з 7:00 до 23:00)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-explanation">
+            <h5><b>Час і гроші.</b> Кольором виділений офіційно платний час на київських парковках.</h5>
+        </div>
+
+        <div class="chart-container"></div>
+        <div class="frame-container" style="width: {{size.w}}px; height: {{size.h}}px;">
+            <div class="chart-annotation" style="width: {{annotation.w}}px; margin-left: {{annotation.left}}px">
+                <svg width="1px" height="1px">
+                    <g transform="translate({{annotation.tr}}, 0)">
+                        <path class="line line-annotation" marker-end="url(#arrowhead)" d="M 0, 0 C 0, -25, 0, -50, 85, -50"></path>
+                    </g>
+                </svg>
+                {{annotation.text}}
+                <svg width="1px" height="1px">
+                    <g transform="translate({{annotation.tr}}, 0)">
+                        <path class="line line-annotation" marker-end="url(#arrowhead)" d="M 0, 0 C 0, 25, 0, 50, 85, 50"></path>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+
 <script src="lib/d3.v4.min.js"></script>
-<script src="https://rawgit.com/Kcnarf/d3-beeswarm/master/build/d3-beeswarm.js"></script>
+<!--<script src="https://rawgit.com/Kcnarf/d3-beeswarm/master/build/d3-beeswarm.js"></script>-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="lib/bootstrap.min.js"></script>
 
-<!--<script src="lib/moment.min.js"></script>-->
+<script src="lib/moment.min.js"></script>
 <!--<script src="lib/perfect-scrollbar.min.js"></script>-->
 <!--<script src="lib/ion.rangeSlider.min.js"></script>-->
 <!--<script src="lib/Sortable.js"></script>-->
 
 <script src="lib/share-behavior.js"></script>
 <script src="js/beechart.js"></script>
+<script src="js/barchart.js"></script>
 <script src="js/map.js"></script>
+<script src="js/marey.js"></script>
 <script src="js/main.js"></script>
 
 <script type="text/javascript">

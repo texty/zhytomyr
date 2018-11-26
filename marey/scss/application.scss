@@ -1,18 +1,14 @@
+$color1:#6d368b;
+$color2: #d4095c;
+$color3: #fdfdfd;
+$color4: #f6b033;
+$color5: rgb(229, 255, 193);
 
 @import "base/variables";
 @import "base/mixins";
 @import "base/base";
 
 @import "components/marey";
-
-
-
-$color1:#6d368b;
-$color2: #d4095c;
-$color3: #fdfdfd;
-$color4: #f6b033;
-$color5: #93bf1e;
-
 
 
 body {

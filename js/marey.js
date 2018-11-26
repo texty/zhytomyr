@@ -43,7 +43,7 @@ function marey() {
                 .range([0, 10])
                 .domain([0, 25]);
 
-            y.domain(["2018-08-06 06:00:00", "2018-08-06 22:00:00"]
+            y.domain(["2018-08-06 06:00:00", "2018-08-07 00:00:00"]
                 .map(function(d){return new Date(d)}));
 
             console.log(y.domain());

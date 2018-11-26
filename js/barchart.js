@@ -94,7 +94,7 @@ function barchart() {
                 .attr("class", "bar")
                 .attr("x", d => x(d.date_f))
                 .attr("y", d => y(d.values.length))
-                .attr("width", 3)
+                .attr("width", 2)
                 .attr("height", d => y(0) - y(d.values.length));
 
             return my;

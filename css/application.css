@@ -5,36 +5,36 @@ body {
 p {
   font-size: 1em; }
 
-.swarm-svg-container p {
+.vehicle-card-container p {
   margin-bottom: 0;
   padding-top: 0.7em; }
-.swarm-svg-container span.tracker {
+.vehicle-card-container span.tracker {
   color: #6d368b;
   font-weight: 600; }
-.swarm-svg-container .transactions {
+.vehicle-card-container .transactions {
   font-weight: bold; }
-.swarm-svg-container span {
+.vehicle-card-container span {
   font-size: 0.85em; }
-.swarm-svg-container svg {
+.vehicle-card-container svg {
   shape-rendering: crispEdges;
   overflow: visible !important; }
-  .swarm-svg-container svg circle {
+  .vehicle-card-container svg circle {
     fill: red;
     stroke: none;
     shape-rendering: auto; }
-  .swarm-svg-container svg .axis--x line, .swarm-svg-container svg .axis--x path {
+  .vehicle-card-container svg .axis--x line, .vehicle-card-container svg .axis--x path {
     stroke: gray; }
-  .swarm-svg-container svg .axis--x line {
+  .vehicle-card-container svg .axis--x line {
     stroke-dasharray: 2,2; }
-  .swarm-svg-container svg .axis--x path {
+  .vehicle-card-container svg .axis--x path {
     stroke: none; }
-  .swarm-svg-container svg rect.bar {
+  .vehicle-card-container svg rect.bar {
     fill: #6d368b;
     stroke: none; }
-  .swarm-svg-container svg rect.period {
+  .vehicle-card-container svg rect.period {
     fill: #dbff79;
     stroke: none; }
-  .swarm-svg-container svg rect.out-period {
+  .vehicle-card-container svg rect.out-period {
     fill: #bbbbbb;
     stroke: none; }
 

@@ -1,10 +1,8 @@
 
 var inpc = d3.format(".0%");
 
-// var source = $("#parking-card-template").html();
-// var template = Handlebars.compile(source);
-
-
+var vehicle_card_template = Handlebars.compile($("#vehicle-card-template").html());
+var route_total_card_template = Handlebars.compile($("#route-total-card-template").html());
 
 d3.queue()
     .defer(d3.csv, "data/transactions_geo/2018-08-06.csv")
@@ -13,53 +11,16 @@ d3.queue()
     .defer(d3.csv, "data/out_periods/periods.csv")
     .defer(d3.csv, "data/sample.csv")
     .defer(d3.csv, "data/stops.csv")
-    .await(function(err, transactions, routes, periods, out_periods, data, stops){
+    .await(function(err, transactions, routes, gps_periods, out_periods, data, stops){
         if (err) throw err;
 
-        transactions.forEach(function(d){d.datetime = new Date(d.datetime)});
+        var by_route = prepareTransactionsByRoute(transactions);
+        var periods_by_vehicle = prepareGpsPeriods(gps_periods);
+        var out_periods_map = prepareOutPeriods(out_periods);
+        var seg_data = prepareSegData(data);
+        var stops_data = prepareStopsData(stops);
 
-        var nested = d3.nest()
-            .key(function (d) {
-                return d.vehicle
-            })
-            .entries(transactions);
-
-        console.log(transactions);
-        window.transactions = transactions;
-        window.routes = routes;
-
-        periods.forEach(d => {
-            d.start_datetime = new Date(d.start_datetime);
-            d.end_datetime = new Date(d.end_datetime);
-        });
-
-        out_periods.forEach(d => {
-            d.start_datetime = new Date(d.start_datetime);
-            d.end_datetime = new Date(d.end_datetime);
-        });
-
-        var by_kind = d3.nest()
-            .key(function(d){return d.kind})
-            .entries(transactions);
-
-        window.colorScale = d3.scaleOrdinal()
-            .range(d3.schemeCategory20.slice(1,1+15))
-            .domain(by_kind.map(function(d){return d.key}));
-
-
-        var by_route = d3.nest()
-            .key(function(d){return d.route})
-            .sortKeys(d3.ascending)
-            .entries(transactions);
-
-
-        var periods_by_vehicle = d3.nest()
-            .key(d => d.vehicle)
-            .map(periods);
-
-        var out_periods_map = d3.nest()
-            .key(d => d.route + '-' + d.vehicle)
-            .map(out_periods);
+        var current_route_data;
 
         var pills = d3.select("#route-pills")
             .selectAll("li")
@@ -76,21 +37,21 @@ d3.queue()
                 d3.select(this).classed('active', true);
 
                 d3.selectAll(".route-number-text").text(d.key);
-                window.route_d = d;
+                current_route_data = d;
                 renderRoute(d);
                 d3.event.preventDefault();
             });
 
-        d3.select("#change-chart").datum({state: "bar"}).on("click",function(d){
+        d3.select("#change-chart").datum({state: 'map'}).on("click",function(d){
             console.log(d.state);
-            d.state = d.state=='bar' ? 'marey' : 'bar';
+            d.state = d.state=='map' ? 'marey' : 'map';
 
             d3.select(".marey-container").classed('hidden', d.state != 'marey');
-            d3.select(".bars-container").classed('hidden', d.state != 'bar');
+            d3.select("#map-container").classed('hidden', d.state != 'map');
 
-            d3.select(this).text(d.state == 'bar' ? 'Натисніть щоб досліджувати рух по зупинках' : 'Натисніть щоб дивитись статистику по машинах')
+            d3.select(this).text(d.state == 'map' ? 'Дивитись графік руху по зупинках' : 'Дивитись карту');
 
-            renderRoute(route_d)
+            renderRoute(current_route_data)
         });
 
         d3.select("#route-pills")
@@ -98,41 +59,9 @@ d3.queue()
             .each(function(d){
                 pills.classed("active", false);
                 d3.select(this).classed('active', true);
-                console.log(d);
-                window.route_d = d;
+                current_route_data = d;
                 renderRoute(d);
             });
-
-
-        data = data.filter(d => d.direction == '0');
-        data.forEach(r => {
-            r.direction = +r.direction;
-            r.transactions = +r.transactions;
-            r.chunk = +r.chunk;
-            r.fraction = +r.fraction;
-            r.start_datetime = new Date(r.start_datetime);
-            r.end_datetime = new Date(r.end_datetime);
-        });
-
-        stops.forEach(r => {
-            r.id = +r.id;
-            r.direction = +r.direction;
-            r.fraction = +r.fraction;
-            r.priority = +r.priority;
-        });
-
-        stops = stops.filter(r => r.direction == 0);
-
-        var stops_map = d3.nest()
-            .key(d => d.route)
-            .map(stops);
-
-        var route_data = d3.nest()
-            .key(row => row.route)
-            .map(data);
-
-
-
 
 
         function renderRoute(route_data) {
@@ -154,17 +83,14 @@ d3.queue()
             };
 
             var total_container = d3.select("#route-total-container");
-            total_container.selectAll("*").remove()
-            renderVehicle(total_container, total);
+            total_container.selectAll("*").remove();
+
 
             total_container
-                .append("div")
                 .datum(total)
-                .attr("class", "col-9")
-                .append("svg")
-                .attr("width", "100%")
-                .attr("data-min-height", "65")
-                // .attr("data-aspect-ratio", "0.5")
+                .append("div").attr("class", "col-12")
+                .html(d => route_total_card_template(d))
+                .select('svg')
                 .each(function(d){
                     var chart = barchart().data(total).maxY(200);
                     d3.select(this).call(chart);
@@ -175,44 +101,18 @@ d3.queue()
             small_multiples_container.selectAll('*').remove();
 
             if (d3.select("#change-chart").datum().state == 'marey') {
-                showMarey(route_d.key);
-                return;
+                showMarey(current_route_data.key);
+                // return;
             }
 
-
-            var vehicle_container = small_multiples_container.selectAll('div.swarm-svg-container')
+            var vehicle_container = small_multiples_container.selectAll('div.vehicle-card-container')
                 .data(nested, function(d){return d.key})
                 .enter()
                 .append("div")
-                .attr("class", "swarm-svg-container col-12")
-                .append("div")
-                .attr("class", "row");
+                .attr("class", "vehicle-card-container col-12")
+                .html(d => vehicle_card_template(d));
 
-            var stats_container = vehicle_container.append("div").attr("class", "col-3");
-
-            stats_container.append("span").text("№ ");
-            stats_container.append("span").attr("class", "tracker").text(function(d){return d.key});
-
-            stats_container.append("span").text("; Транзакцій: ");
-            stats_container.append("span").attr("class", "transactions").text(function(d){return d.values.length})//.append("br");
-
-            stats_container.append("span").text("; Готівкою: ");
-            stats_container.append("span").attr("class", "cash").text(function(d){return inpc(d.summary.cash/d.summary.total)});
-
-            stats_container.append("span").text("; Проїзний: ");
-            stats_container.append("span").attr("class", "pro").text(function(d){return inpc(d.summary.pro/d.summary.total)});
-
-            stats_container.append("span").text("; Карткою: ");
-            stats_container.append("span").attr("class", "bank").text(function(d){return inpc(d.summary.bank/d.summary.total)});
-
-
-            vehicle_container
-                .append("div")
-                .attr("class", "col-9")
-                .append("svg")
-                .attr("width", "100%")
-                .attr("data-min-height", "65")
-                // .attr("data-aspect-ratio", "0.5")
+            vehicle_container.select("svg")
                 .each(function(d){
                     var chart = barchart()
                         .data(d)
@@ -236,19 +136,23 @@ d3.queue()
         }
 
 
-        function calcSummary(transactions) {
+        function calcSummary(d) {
             var summary = {};
-            summary.total = transactions.length;
-            summary.cash = transactions.filter(function(dd){return dd.kind=="14"}).length;
-            summary.bank = transactions.filter(function(dd){return dd.kind=="32"}).length;
-            summary.pro = transactions.filter(function(dd){return ['16', '17'].indexOf(dd.kind) >= 0}).length;
+
+            summary.total = d.length;
+            summary.cash = d.filter(function(dd){return dd.kind=="14"}).length;
+            summary.bank = d.filter(function(dd){return dd.kind=="32"}).length;
+            summary.pro = d.filter(function(dd){return ['16', '17'].indexOf(dd.kind) >= 0}).length;
+
+            summary.cash_pc = inpc(summary.cash/summary.total);
+            summary.bank_pc = inpc(summary.bank/summary.total);
+            summary.pro_pc = inpc(summary.pro/summary.total);
 
             return summary;
         }
 
 
         function renderVehicle(container, d) {
-
             var stats_container = container.append("div").attr("class", "col-3");
 
             stats_container.append("span").text("Транзакцій: ");
@@ -270,12 +174,73 @@ d3.queue()
             svg.selectAll("*").remove();
 
             var marey_chart = marey()
-                .data(route_data.get(route).filter(d=>d.direction == 0))
-                .stops_data(stops_map.get(route));
+                .data(seg_data.get(route).filter(d=>d.direction == 0))
+                .stops_data(stops_data.get(route));
 
             svg.call(marey_chart);
+        }
 
 
+        function prepareTransactionsByRoute(transactions) {
+            transactions.forEach(function(d){d.datetime = new Date(d.datetime)});
+
+            return d3.nest()
+                .key(function(d){return d.route})
+                .sortKeys(d3.ascending)
+                .entries(transactions);
+        }
+
+        function prepareGpsPeriods(gps_periods) {
+            gps_periods.forEach(d => {
+                d.start_datetime = new Date(d.start_datetime);
+                d.end_datetime = new Date(d.end_datetime);
+            });
+
+            return d3.nest()
+                .key(d => d.vehicle)
+                .map(gps_periods);
+        }
+
+        function prepareOutPeriods(out_periods) {
+            out_periods.forEach(d => {
+                d.start_datetime = new Date(d.start_datetime);
+                d.end_datetime = new Date(d.end_datetime);
+            });
+
+            return d3.nest()
+                .key(d => d.route + '-' + d.vehicle)
+                .map(out_periods);
+        }
+
+        function prepareSegData(data) {
+            data = data.filter(d => d.direction == '0');
+            data.forEach(r => {
+                r.direction = +r.direction;
+                r.transactions = +r.transactions;
+                r.chunk = +r.chunk;
+                r.fraction = +r.fraction;
+                r.start_datetime = new Date(r.start_datetime);
+                r.end_datetime = new Date(r.end_datetime);
+            });
+
+            return d3.nest()
+                .key(row => row.route)
+                .map(data);
+        }
+
+        function prepareStopsData(stops) {
+            stops.forEach(r => {
+                r.id = +r.id;
+                r.direction = +r.direction;
+                r.fraction = +r.fraction;
+                r.priority = +r.priority;
+            });
+
+            stops = stops.filter(r => r.direction == 0);
+
+            return d3.nest()
+                .key(d => d.route)
+                .map(stops);
 
         }
     });

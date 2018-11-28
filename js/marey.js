@@ -25,11 +25,16 @@ function marey() {
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 ;
 
+            var zoom = d3.zoom()
+                .scaleExtent([1, 10])
+                .translateExtent([[-width*2, 0], [width*2, 0]])
+                .on("zoom", zoomed);
+
             svg.attr("height", h);
 
             var clipPath = svg.append("defs")
                 .append("clipPath")
-                .attr("id", "clipPath")
+                .attr("id", "clipPath");
 
             var trip_data = d3.nest()
                 .key(row => row.group)
@@ -46,8 +51,8 @@ function marey() {
                 .range([0, 10])
                 .domain([0, 25]);
 
-            x.domain(["2018-08-06 06:00:00", "2018-08-07 00:00:00"]
-                .map(function(d){return new Date(d)}));
+            // x.domain(["2018-08-06 00:00:00", "2018-08-07 00:00:00"]
+            //     .map(function(d){return new Date(d)}));
 
             x.domain(d3.extent(data, d => d.start_datetime));
 
@@ -74,22 +79,21 @@ function marey() {
                 .attr("width", width + 30)
                 .attr("height", height + 30);
 
-            g.append("g")
+            var gY = g.append("g")
                 .attr("class", "axis axis--y")
                 // .attr("transform", "translate(0," + height + ")")
-                .call(yAxis)
-                .selectAll("text")
-                // .attr("y", -10);
-                .attr("x", -85)
-                // .attr("dy", ".35em")
-                // .attr("transform", "rotate(-90)");
+                .call(yAxis);
 
-            g.append("g")
+            gY
+                .selectAll("text")
+                .attr("x", -85);
+
+            var gX1 = g.append("g")
                 .attr("class", "axis axis--x axis--x-1")
                 .call(xAxis1)
                 .attr("transform", "translate(0, -25)");
 
-            g.append("g")
+            var gX2 = g.append("g")
                 .attr("class", "axis axis--x axis--x-2")
                 .attr("transform", "translate(0, " + (height + 25) + ")")
                 .call(xAxis2);
@@ -98,15 +102,17 @@ function marey() {
                 .y((d) => y(d.fraction))
                 .x((d) => x(d.start_datetime));
 
-            var pp = g.append("g")
+            var zoom_pane = g.append("g");
+
+            var pp = zoom_pane.append("g")
                 .style("clip-path", "url(#clipPath)")
                 .selectAll("path")
                 .data(trip_data)
                 .enter()
                 .append("path")
-                .attr("d", function(d){console.log(d.values); return pathGen(d.values)});
+                .attr("d", d => pathGen(d.values));
 
-            var circle = g.append("g")
+            var circle = zoom_pane.append("g")
                 .style("clip-path", "url(#clipPath)")
                 .selectAll("circle")
                 .data(data)
@@ -122,10 +128,20 @@ function marey() {
             //         circle.style('opacity', dd => dd.vehicle == d.values[0].vehicle ? 1 : 0.2)
             //     });
 
+            svg.call(zoom);
 
+            function zoomed() {
+                var xt = d3.event.transform.rescaleX(x);
+                console.log(d3.event.transform);
+                gX1.call(xAxis1.scale(xt));
+
+                pathGen.x(d => xt(d.start_datetime));
+
+                pp.attr("d", d => pathGen(d.values));
+                circle.attr("cx", d => xt(d.start_datetime));
+            }
 
             return my;
-
         });
     }
 

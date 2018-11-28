@@ -5,36 +5,38 @@ body {
 p {
   font-size: 1em; }
 
-.vehicle-card-container p {
-  margin-bottom: 0;
-  padding-top: 0.7em; }
-.vehicle-card-container span.tracker {
-  color: #4a2366;
-  font-weight: 600; }
-.vehicle-card-container .transactions {
-  font-weight: bold; }
-.vehicle-card-container span {
-  font-size: 0.85em; }
-.vehicle-card-container svg {
-  shape-rendering: crispEdges;
-  overflow: visible !important; }
-  .vehicle-card-container svg .axis--x line, .vehicle-card-container svg .axis--x path {
-    stroke: gray; }
-  .vehicle-card-container svg .axis--x line {
-    stroke-dasharray: 2,2; }
-  .vehicle-card-container svg .axis--x path {
-    stroke: none; }
-  .vehicle-card-container svg rect.bar {
-    fill: #4a2366;
-    stroke: none; }
-  .vehicle-card-container svg rect.period {
-    fill: #dbff79;
-    stroke: none; }
-  .vehicle-card-container svg rect.out-period {
-    fill: #bbbbbb;
-    stroke: none; }
-  .vehicle-card-container svg.dark-bg rect.bar {
-    fill: white; }
+.vehicle-card-container {
+  margin-bottom: 1.5em; }
+  .vehicle-card-container p {
+    margin-bottom: 0;
+    padding-top: 0.7em; }
+  .vehicle-card-container span.tracker {
+    color: #4a2366;
+    font-weight: 600; }
+  .vehicle-card-container .transactions {
+    font-weight: bold; }
+  .vehicle-card-container span {
+    font-size: 0.85em; }
+  .vehicle-card-container svg {
+    shape-rendering: crispEdges;
+    overflow: visible !important; }
+    .vehicle-card-container svg .axis--x line, .vehicle-card-container svg .axis--x path {
+      stroke: gray; }
+    .vehicle-card-container svg .axis--x line {
+      stroke-dasharray: 2,2; }
+    .vehicle-card-container svg .axis--x path {
+      stroke: none; }
+    .vehicle-card-container svg rect.bar {
+      fill: #4a2366;
+      stroke: none; }
+    .vehicle-card-container svg rect.period {
+      fill: #dbff79;
+      stroke: none; }
+    .vehicle-card-container svg rect.out-period {
+      fill: #bbbbbb;
+      stroke: none; }
+    .vehicle-card-container svg.dark-bg rect.bar {
+      fill: white; }
 
 #marey-container svg {
   shape-rendering: crispEdges;
@@ -42,10 +44,13 @@ p {
   #marey-container svg .axis line, #marey-container svg .axis path {
     stroke: gray; }
   #marey-container svg .axis--x text {
-    text-anchor: end; }
+    text-anchor: center; }
+  #marey-container svg .axis--y text {
+    text-anchor: start;
+    fill-opacity: 0.5; }
   #marey-container svg circle {
     fill: #f6b033;
-    fill-opacity: 0.3;
+    fill-opacity: 0.5;
     stroke: white;
     stroke-opacity: 0.7;
     shape-rendering: geometricPrecision; }

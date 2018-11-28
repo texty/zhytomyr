@@ -60,10 +60,9 @@ function barchart() {
                     .append("rect")
                     .attr("class", "period")
                     .attr("x", d => x(d.start_datetime))
-                    .attr("y", d => y(-2))
+                    .attr("y", d => y(0))
                     .attr("width", d => x(d.end_datetime) - x(d.start_datetime))
                     .attr("height", y(0) - y(5))
-
             }
 
             if (out_periods) {
@@ -74,10 +73,9 @@ function barchart() {
                     .append("rect")
                     .attr("class", "out-period")
                     .attr("x", d => x(d.start_datetime))
-                    .attr("y", d => y(-2))
+                    .attr("y", d => y(-5))
                     .attr("width", d => x(d.end_datetime) - x(d.start_datetime))
                     .attr("height", y(0) - y(5))
-
             }
 
 
@@ -133,36 +131,7 @@ function barchart() {
 
         date = moment(date);
         return date.minute(Math.floor(date.minute() / band) * band).second(0).toDate();
-
-        // if (date.minute() >= 30) return date.minute(30).second(0).toDate();
-        // else return date.minute(0).second(0).toDate();
     }
-    //
-    // function time_aggregate(data) {
-    //     const min = moment(new Date("2018-08-06T00:00:00"));
-    //     const max = moment(new Date("2018-08-07T00:00:00"));
-    //     const mins = 30;
-    //
-    //     var period_end = moment(min);
-    //
-    //
-    //     var tr_i = 0;
-    //     while (period_end.isBefore(max)) {
-    //         period_end.add(mins, 'm');
-    //
-    //         while ( period_end.isBefore(data[tr_i].datetime) ){
-    //
-    //             tr_i++;
-    //         }
-    //
-    //
-    //
-    //     }
-    //
-    //
-    //     return [];
-    //
-    // }
 
     return my;
 }

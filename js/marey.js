@@ -2,7 +2,6 @@ function marey() {
 
     var data = []
         , stops_data = []
-        , y
         , dateFormat = d3.timeFormat("%H:%M")
         // , xFormat = d3.format("0.2f")
         ;
@@ -18,7 +17,7 @@ function marey() {
             var mh = +svg.attr("data-min-height");
             var h = Math.max(mh, w * (+svg.attr("data-aspect-ratio")));
 
-            var margin = {top: 5, right: 45, bottom: 105, left: 35}
+            var margin = {top: 5, right: 45, bottom: 5, left: 90}
                 , width = w - margin.left - margin.right
                 , height = h - margin.top - margin.bottom
                 , g = svg
@@ -28,81 +27,93 @@ function marey() {
 
             svg.attr("height", h);
 
+            var clipPath = svg.append("defs")
+                .append("clipPath")
+                .attr("id", "clipPath")
+
             var trip_data = d3.nest()
                 .key(row => row.group)
                 .entries(data);
             
-            y = d3.scaleTime()
-                .range([0, height]);
+            var x = d3.scaleTime()
+                .range([0, width]);
 
-            var x = d3.scaleLinear()
-                .range([0,width])
+            var y = d3.scaleLinear()
+                .range([0, height])
                 .domain(d3.extent(stops_data, (d) => d.fraction));
 
             var radiusScale = d3.scaleSqrt()
                 .range([0, 10])
                 .domain([0, 25]);
 
-            y.domain(["2018-08-06 06:00:00", "2018-08-07 00:00:00"]
+            x.domain(["2018-08-06 06:00:00", "2018-08-07 00:00:00"]
                 .map(function(d){return new Date(d)}));
 
-            console.log(y.domain());
+            x.domain(d3.extent(data, d => d.start_datetime));
 
-            var xAxis = d3.axisBottom(x)
+            var yAxis = d3.axisLeft(y)
                 .tickSizeOuter(0)
                 .tickSizeInner(5)
                 .tickPadding(0)
                 .tickValues(stops_data.map(r => r.fraction))
                 .tickFormat((fr, i) => stops_data[i].name);
 
-            var yAxis1 = d3.axisLeft(y)
+            var xAxis1 = d3.axisTop(x)
                 .tickSizeInner(5)
                 .tickSizeOuter(0)
                 .tickFormat(dateFormat);
 
-            var yAxis2 = d3.axisRight(y)
+            var xAxis2 = d3.axisBottom(x)
                 .tickSizeInner(5)
                 .tickSizeOuter(0)
                 .tickFormat(dateFormat);
 
+            clipPath.append("rect")
+                .attr("x", -15)
+                .attr("y", -15)
+                .attr("width", width + 30)
+                .attr("height", height + 30);
 
             g.append("g")
-                .attr("class", "axis axis--x")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis)
+                .attr("class", "axis axis--y")
+                // .attr("transform", "translate(0," + height + ")")
+                .call(yAxis)
                 .selectAll("text")
-                .attr("y", 0)
-                .attr("x", -7)
-                .attr("dy", ".35em")
-                .attr("transform", "rotate(-90)");
+                // .attr("y", -10);
+                .attr("x", -85)
+                // .attr("dy", ".35em")
+                // .attr("transform", "rotate(-90)");
 
             g.append("g")
-                .attr("class", "axis axis--y axis--y-1")
-                .call(yAxis1);
+                .attr("class", "axis axis--x axis--x-1")
+                .call(xAxis1)
+                .attr("transform", "translate(0, -25)");
 
             g.append("g")
-                .attr("class", "axis axis--y axis--y-2")
-                .attr("transform", "translate(" + width + ",0)")
-                .call(yAxis2);
+                .attr("class", "axis axis--x axis--x-2")
+                .attr("transform", "translate(0, " + (height + 25) + ")")
+                .call(xAxis2);
 
             var pathGen = d3.line()
-                .x((d) => x(d.fraction))
-                .y((d) => y(d.start_datetime));
+                .y((d) => y(d.fraction))
+                .x((d) => x(d.start_datetime));
 
             var pp = g.append("g")
+                .style("clip-path", "url(#clipPath)")
                 .selectAll("path")
                 .data(trip_data)
                 .enter()
                 .append("path")
-                .attr("d", function(d){console.log(d.values); return pathGen(d.values)})
+                .attr("d", function(d){console.log(d.values); return pathGen(d.values)});
 
             var circle = g.append("g")
+                .style("clip-path", "url(#clipPath)")
                 .selectAll("circle")
                 .data(data)
                 .enter()
                 .append("circle")
-                .attr('cx', function(d) {return x(d.fraction); })
-                .attr('cy', function(d) {return y(d.start_datetime)})
+                .attr('cy', function(d) {return y(d.fraction); })
+                .attr('cx', function(d) {return x(d.start_datetime)})
                 .attr('r', d => radiusScale(d.transactions));
 
             // pp

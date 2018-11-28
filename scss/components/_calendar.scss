@@ -1,0 +1,82 @@
+.heatmap-calendar {
+
+
+  .month-year-title-container {
+    i {
+      vertical-align: middle;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+  }
+
+  .month-year-title {
+    text-transform: uppercase;
+
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+
+    .month-title {
+      vertical-align: middle;
+    }
+
+  }
+
+  $block-w: 2em;
+  $block-h: 1.5em;
+
+  .month-grid {
+    width: $block-w * 7;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+
+    .days, .day-names-row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .days {
+      margin-bottom: 0.5em;
+    }
+
+    .box {
+      width: $block-w;
+      height: $block-h;
+      //border: 1px solid #7A357D;
+
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      text-align: left;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .days .box {
+      color: #777;
+      padding-left: 0.5em;
+      border-radius: 0.2em;
+
+      &.invisible {
+        cursor: inherit;
+      }
+
+      &.active {
+        color: $color1;
+        cursor: pointer;
+      }
+
+      &.selected {
+        color: $white;
+        background-color: $color1;
+      }
+    }
+
+    .day-names-row .box {
+      color: #777;
+    }
+  }
+
+}
+

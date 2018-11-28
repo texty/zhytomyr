@@ -27,6 +27,7 @@ d3.queue()
             .data(by_route)
             .enter()
             .append("li")
+            .append("li")
             .attr("class", "nav-item")
             .append("a")
             .attr("class", "nav-link")
@@ -42,7 +43,7 @@ d3.queue()
                 d3.event.preventDefault();
             });
 
-        d3.select("#change-chart").datum({state: 'map'}).on("click",function(d){
+        d3.select("#change-chart").datum({state: 'marey'}).on("click",function(d){
             console.log(d.state);
             d.state = d.state=='map' ? 'marey' : 'map';
 
@@ -100,9 +101,10 @@ d3.queue()
             var small_multiples_container = d3.select("#small-multiples");
             small_multiples_container.selectAll('*').remove();
 
-            if (d3.select("#change-chart").datum().state == 'marey') {
+            var switch_state = d3.select("#change-chart").datum().state;
+
+            if  (switch_state == 'marey') {
                 showMarey(current_route_data.key);
-                // return;
             }
 
             var vehicle_container = small_multiples_container.selectAll('div.vehicle-card-container')
@@ -127,12 +129,14 @@ d3.queue()
             })[0];
             
             console.log(line);
-            
+
             map.showLine(line);
             map.drawPoints(route_data.values);
+            map.invalidateSize();
 
 
-
+            var calendar_control = calendar();
+            d3.select("body").call(calendar_control)
         }
 
 

@@ -2,20 +2,25 @@ var map = (function () {
 
     var module = {};
 
-    var mmapp = L.map('map', {maxZoom: 15}).setView([50.2227664, 28.673982], 12);
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
-        attribution: 'Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL. ',
-        maxZoom: 18,
-        id: 'background'
-    }).addTo(mmapp);
+    var mmapp
+        , last_layer
+        , points
+        ;
 
     var timeFormat = d3.timeFormat("%Y-%m-%d %H:%M:%S");
 
-    // https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png
+    mmapp = L.map('map', {
+        maxZoom: 18,
+        minZoom: 11,
+        maxBounds: L.latLngBounds(L.latLng(50.07, 28.29), L.latLng(50.47, 29.01))
+    }).setView([50.2227664, 28.673982], 12);
 
-    var last_layer;
-    var points;
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+        attribution: 'Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL. ',
+        id: 'background'
+    }).addTo(mmapp);
+
+    // https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png
 
     module.showLine = function(line) {
         if (last_layer) mmapp.removeLayer(last_layer);
@@ -24,7 +29,6 @@ var map = (function () {
     };
 
     module.drawPoints = function(transactions) {
-
         if (points) mmapp.removeLayer(points);
 
         var geojson = [];
@@ -74,7 +78,6 @@ var map = (function () {
 
         points.on("click", function(e){
             console.log(e.layer)
-
         })
 
     };
@@ -86,6 +89,11 @@ var map = (function () {
         return "<span>№ " + feature.properties.vehicle + "</span>" +
                 "<br><span>Час: " + timeFormat(feature.properties.datetime) + "</span>"
     }
+
+    module.invalidateSize = function() {
+        if (mmapp) mmapp.invalidateSize();
+        return module;
+    };
 
     return module;
 })();

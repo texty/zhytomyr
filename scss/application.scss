@@ -1,17 +1,19 @@
-$color1: #6d368b;
+$color1: #4a2366;
 $color2: #d4095c;
 $color3: #fdfdfd;
 $color4: #f6b033;
 $color5: #93bf1e;
 
+$white_color: white;
 
 @import "base/variables";
 @import "base/mixins";
 @import "base/base";
 $main-color: $color1;
-//@import "components/beechart";
+
 @import "components/barchart";
 @import "components/marey";
+@import "components/calendar";
 
 
 body {
@@ -42,39 +44,108 @@ a.dotted {
   }
 }
 
-.header-block {
-  color: white;
-  background-color: $main_color;
+.right-side {
+  background-color: $color1;
+  color: $white-color;
 
-  padding-top: 2em;
-  padding-bottom: 2em;
-
-  .header-text-block {
-    max-width: 600px;
-  }
-
-  h3 {
-    margin-top: 0;
-    font-weight: 800;
-  }
-
-  margin-bottom: 2em;
-
-  a.dotted {
-    color: #afd2fa;
+  text {
+    fill: $white-color;
   }
 }
+
+
+.padding-from-ceiling {
+  padding-top: 4em;
+}
+
 
 h6.header-badge {
   display: inline-block;
   text-transform: uppercase;
-  color: $main_color;
-  border: 1px solid $main_color;
+
   padding-left: 0.2em;
   padding-right: 0.2em;
   margin-right: 0.3em;
+
+  border-radius: 0.3em;
+
+  &.dark-bg {
+    color: $white_color;
+    background-color: $color1;
+  }
+
+  &.light-bg {
+    color: $main_color;
+    background-color: $white-color;
+  }
 }
 
+#map {
+  height: 100%
+}
+
+#route-pills {
+  margin-top:1.5em;
+  margin-bottom:1em;
+
+  .nav-link.active, .show > .nav-link {
+    background-color: $color1;
+  }
+
+  .nav-item {
+    width: 2em;
+    height: 1.5em;
+    font-size: 1em;
+
+    margin-right: 0.8em;
+    margin-bottom: 0.8em;
+
+    .nav-link {
+      width: 3em;
+      padding-left: 0.5em;
+
+      padding-right: 0.5em;
+
+    }
+  }
+
+}
+
+.summary-header{
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+.bg-gps {
+  background-color: #dbff79;
+}
+
+.bg-out-of-route {
+  background-color: #bbb;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.marey-container {
+  background: $color1;
+  color: white;
+  padding-top: 2em;
+}
+
+#marey-container {
+  margin-top: 3em;
+  margin-bottom: 7em
+}
+
+#map-container {
+  width: 100%;
+  height: 100vh;
+}
+//
+//
+//
 
 .footer {
   h3 {
@@ -130,48 +201,25 @@ h6.header-badge {
   }
 }
 
-
-//div {
-//  border: 1px solid gray;
+//.header-block {
+//  color: white;
+//  background-color: $main_color;
+//
+//  padding-top: 2em;
+//  padding-bottom: 2em;
+//
+//  .header-text-block {
+//    max-width: 600px;
+//  }
+//
+//  h3 {
+//    margin-top: 0;
+//    font-weight: 800;
+//  }
+//
+//  margin-bottom: 2em;
+//
+//  a.dotted {
+//    color: #afd2fa;
+//  }
 //}
-
-
-#map {
-  height: 100%
-}
-
-#route-pills {
-  .nav-link.active, .show > .nav-link {
-    background-color: $color1;
-  }
-}
-
-.route-summary-header{
-  width: 100%;
-  background-color: $color1;
-  color: white;
-  font-family: "Open Sans Condensed"
-}
-
-.bg-gps {
-  background-color: #dbff79;
-}
-
-.bg-out-of-route {
-  background-color: #bbb;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.marey-container {
-  background: $color1;
-  color: white;
-  padding-top: 2em;
-}
-
-#marey-container {
-  margin-top: 3em;
-  margin-bottom: 7em
-}

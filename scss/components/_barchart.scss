@@ -22,12 +22,12 @@
     //overflow: hidden;
     overflow: visible !important;
 
-    circle {
-      fill: red;
-      stroke: none;
-      //opacity: 0.5;
-      shape-rendering: auto;
-    }
+    //circle {
+    //  fill: red;
+    //  stroke: none;
+    //  //opacity: 0.5;
+    //  shape-rendering: auto;
+    //}
 
 
     .axis--x {
@@ -55,6 +55,12 @@
     rect.out-period {
       fill: #bbbbbb;
       stroke: none;
+    }
+
+    &.dark-bg {
+      rect.bar {
+        fill: $white-color;
+      }
     }
   }
 }

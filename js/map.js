@@ -25,7 +25,6 @@ var map = (function () {
     module.showLine = function(line) {
         if (last_layer) mmapp.removeLayer(last_layer);
         last_layer = L.geoJSON(line).addTo(mmapp);
-
     };
 
     module.drawPoints = function(transactions) {

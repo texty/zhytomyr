@@ -5,6 +5,7 @@ function barchart() {
         , maxY = 40
         , periods
         , out_periods
+        , date_extent = ["2018-08-06T00:00:00", "2018-08-07T00:00:00"]
     // , xFormat = d3.format("0.2f")
         ;
 
@@ -33,7 +34,7 @@ function barchart() {
                 .range([height, 0]);
 
             // x.domain(d3.extent(data.values, function(d) {return d.datetime}));
-            x.domain(["2018-08-06T00:00:00", "2018-08-07T00:00:00"].map(function(d){return new Date(d)}));
+            x.domain(date_extent.map(function(d){return new Date(d)}));
 
             data.values.forEach(v => v.date_f = time_floor(v.datetime));
 
@@ -122,6 +123,12 @@ function barchart() {
     my.maxY = function(value) {
         if (!arguments.length) return maxY;
         maxY = value;
+        return my;
+    };
+
+    my.date_extent = function(value) {
+        if (!arguments.length) return date_extent;
+        date_extent = value;
         return my;
     };
 

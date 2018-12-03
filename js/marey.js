@@ -25,6 +25,7 @@ function marey() {
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 ;
 
+            // todo Додати налаштування EXTEnT.
             var zoom = d3.zoom()
                 .scaleExtent([1, 10])
                 .translateExtent([[-width*2, 0], [width*2, 0]])
@@ -134,6 +135,7 @@ function marey() {
                 var xt = d3.event.transform.rescaleX(x);
                 console.log(d3.event.transform);
                 gX1.call(xAxis1.scale(xt));
+                gX2.call(xAxis2.scale(xt));
 
                 pathGen.x(d => xt(d.start_datetime));
 

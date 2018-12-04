@@ -109,7 +109,30 @@ var data_provider = (function() {
     };
 
 
+    module.getHeatmap = function(cb) {
+        return module.cache_xhr(d3.csv, 'data/heatmap.csv', function(heatmap){
 
+            heatmap.forEach(function(row){
+                row.n = +row.n;
+            });
+
+            var by_date = d3.nest()
+                .key(d => d.date)
+                .rollup(v => d3.sum(v, d => d.n))
+                .map(heatmap);
+
+            var by_date_route = d3.nest()
+                .key(d => d.date)
+                .key(d => d.route)
+                .rollup(v => d3.sum(v, d => d.n))
+                .map(heatmap);
+
+            return {
+                by_date: by_date,
+                by_date_route: by_date_route
+            }
+        }, cb);
+    };
 
     //
     // module.getDataForRoute = function(date, route, cb) {

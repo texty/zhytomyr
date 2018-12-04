@@ -1,8 +1,8 @@
 function calendar() {
 
-    var data = []
+    var heatdata = []
         , date_extent = ['2018-08-06 00:00', '2018-08-12 00:00']
-        , selected_date = new Date('2018-08-06 00:00')
+        , selected_date
         , on_change_counter = 0
         , dispatcher = d3.dispatch("change")
         ;
@@ -70,7 +70,6 @@ function calendar() {
                 .append("div")
                 .attr("class", "box")
                 .classed("active", d => d.active)
-                .classed("selected", d => d.active && date_format(d.date) == date_format(selected_date))
                 .text(d => d.visible ? d.date.getDate() : '');
 
             var active_boxes = container
@@ -79,21 +78,36 @@ function calendar() {
 
             active_boxes.on("click", function(d) {
                 d3.event.preventDefault();
-                
-                if (d3.select(this).classed("selected")) return;
-
-                selected_date = d.date;
-                active_boxes.classed("selected", d => d.active && date_format(d.date) == date_format(selected_date))
-                dispatcher.call("change", this, date_format(d.date));
+                my.selected_date(date_format(d.date));
             });
-            
+
+            var colorScale = d3.scaleSequential(d3.interpolateBlues)
+                .domain([0, d3.max(heatdata.values())]);
+
+            active_boxes
+                .style('background-color', d => colorScale(heatdata.get(date_format(d.date))));
+
+
+            my.selected_date = function(date_str) {
+                if (!arguments.length) return selected_date;
+
+                if (date_str != selected_date) {
+                    selected_date = date_str;
+                
+                    active_boxes.classed("selected", d => d.active && date_format(d.date) == selected_date);
+                    dispatcher.call("change", this, selected_date);
+                }
+
+                return my;
+            };
+
             return my;
         });
     }
 
-    my.data = function(value) {
-        if (!arguments.length) return data;
-        data = value;
+    my.heatdata = function(value) {
+        if (!arguments.length) return heatdata;
+        heatdata = value;
         return my;
     };
 

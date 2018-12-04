@@ -14,23 +14,36 @@ var context = {
 var all_routes = ['1', '2', '3', '4', '4A', '5A','6', '7', '7A', '8', '9', '10', '12', '15A', '53', '53A',
     '91', 'H2', 'H3', 'H4', 'H5', 'H7'];
 
-var calendar_control = calendar()
-    .onDateChange(function (date_str) {
-        console.log(date_str);
-        if (d3.event) {
-            d3.event.preventDefault();
-            // pills.classed("active", false);
-            // d3.select(this).classed('active', true);
-        }
 
-        context.date_str = date_str;
+var route_picker = route_picker()
+    .data(all_routes)
+    .onChange(function(route_str){
+        context.route_str = route_str;
 
-        // d3.selectAll(".route-number-text").text(context.route_str);
+        d3.selectAll(".route-number-text").text(context.route_str);
         renderRoute(context.date_str, context.route_str);
     });
 
-console.log("cal");
-d3.select("body").call(calendar_control);
+d3.select("#route-pills").call(route_picker);
+
+data_provider.getHeatmap(function(err, heatmap){
+    if (err) throw err;
+    
+    var calendar_control = calendar()
+        .heatdata(heatmap.by_date)
+        .onDateChange(function (date_str) {
+            context.date_str = date_str;
+            renderRoute(context.date_str, context.route_str);
+            
+            route_picker.heatdata(heatmap.by_date_route.get(date_str));
+        });
+
+    d3.select("body").call(calendar_control);
+
+    calendar_control.selected_date(context.date_str);
+});
+
+route_picker.route(context.route_str, true);
 
 
 d3.select("#change-chart")
@@ -46,61 +59,6 @@ d3.select("#change-chart")
     });
 
 
-// d3.select("#change-chart").datum({state: 'marey'}).on("click", function (d) {
-//     console.log(d.state);
-//     d.state = d.state == 'map' ? 'marey' : 'map';
-//
-//     d3.select(".marey-container").classed('hidden', d.state != 'marey');
-//     d3.select("#map-container").classed('hidden', d.state != 'map');
-//
-//     d3.select(this).text(d.state == 'map' ? 'Дивитись графік руху по зупинках' : 'Дивитись карту');
-//
-//     renderRoute(date_str, route_str);
-// });
-var pills = d3.select("#route-pills")
-    .selectAll("li")
-    .data(all_routes)
-    .enter()
-    .append("li")
-    .append("li")
-    .attr("class", "nav-item")
-    .append("a")
-    .attr("class", "nav-link")
-    .attr("href", "#")
-    .text(d => d)
-    .classed("active", (d, i) => i==0)
-    .on("click", onRouteClick);
-
-
-function onRouteClick(route_str) {
-    if (d3.event) {
-        d3.event.preventDefault();
-        pills.classed("active", false);
-        d3.select(this).classed('active', true);
-    }
-
-    context.route_str = route_str;
-
-    d3.selectAll(".route-number-text").text(context.route_str);
-    renderRoute(context.date_str, context.route_str);
-}
-
-
-function onDateClick(date_str) {
-    if (d3.event) {
-        d3.event.preventDefault();
-        // pills.classed("active", false);
-        // d3.select(this).classed('active', true);
-    }
-
-    context.date_str = date_str;
-
-    // d3.selectAll(".route-number-text").text(context.route_str);
-    renderRoute(context.date_str, context.route_str);
-}
-
-
-onRouteClick(all_routes[0]);
 
 function renderRoute(date_str, route_str) {
     d3.queue()
@@ -112,45 +70,6 @@ function renderRoute(date_str, route_str) {
         .defer(data_provider.getStops)
         .await(function (err, transactions, segments, gps_periods, out_periods, lines, stops) {
             if (err) throw err;
-
-            // d3.select("#change-chart").datum({state: 'marey'}).on("click", function (d) {
-            //     console.log(d.state);
-            //     d.state = d.state == 'map' ? 'marey' : 'map';
-            //
-            //     d3.select(".marey-container").classed('hidden', d.state != 'marey');
-            //     d3.select("#map-container").classed('hidden', d.state != 'map');
-            //
-            //     d3.select(this).text(d.state == 'map' ? 'Дивитись графік руху по зупинках' : 'Дивитись карту');
-            //
-            //     renderRoute(date_str, route_str);
-            // });
-
-            // d3.select("#route-pills")
-            //     .select("li.nav-item a.nav-link")
-            //     .each(function (route_fstr) {
-            //         pills.classed("active", false);
-            //         d3.select(this).classed('active', true);
-            //         current_route_data = route_str;
-            //         renderRoute(d);
-            //     });
-
-
-            // var nested = d3.nest()
-            //     .key(function (d) {
-            //         return d.vehicle
-            //     })
-            //     .entries(route_data.values);
-            //
-            // nested.sort(function(a,b){return b.values.length - a.values.length});
-            //
-            // nested.forEach(function(d){
-            //     d.summary = calcSummary(d.values);
-            // });
-
-            // var total = {
-            //     values: route_data.values,
-            //     summary: calcSummary(route_data.values)
-            // };
 
             var date_start = new Date(date_str + " 00:00");
             var date_end = new Date(date_start);
@@ -225,109 +144,3 @@ function showMarey(segments, stops) {
 
     svg.call(marey_chart);
 }
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-//
-// function prepareStopsData(stops) {
-//     stops.forEach(r => {
-//         r.id = +r.id;
-//         r.direction = +r.direction;
-//         r.fraction = +r.fraction;
-//         r.priority = +r.priority;
-//     });
-//
-//     stops = stops.filter(r => r.direction == 0);
-//
-//     return d3.nest()
-//         .key(d => d.route)
-//         .map(stops);
-// }
-
-
-
-// function calcSummary(d) {
-//     var summary = {};
-//
-//     summary.total = d.length;
-//     summary.cash = d.filter(function(dd){return dd.kind=="14"}).length;
-//     summary.bank = d.filter(function(dd){return dd.kind=="32"}).length;
-//     summary.pro = d.filter(function(dd){return ['16', '17'].indexOf(dd.kind) >= 0}).length;
-//
-//     summary.cash_pc = inpc(summary.cash/summary.total);
-//     summary.bank_pc = inpc(summary.bank/summary.total);
-//     summary.pro_pc = inpc(summary.pro/summary.total);
-//
-//     return summary;
-// }
-
-
-
-
-//
-// function prepareTransactionsByRoute(transactions) {
-//     transactions.forEach(function(d){d.datetime = new Date(d.datetime)});
-//
-//     return d3.nest()
-//         .key(function(d){return d.route})
-//         .sortKeys(d3.ascending)
-//         .entries(transactions);
-// }
-
-
-// function prepareTransactions(transactions) {
-//     transactions.forEach(function(d){d.datetime = new Date(d.datetime)});
-// }
-//
-
-
-//
-// function prepareSegData(data) {
-//     data = data.filter(d => d.direction == '0');
-//     data.forEach(r => {
-//         r.direction = +r.direction;
-//         r.transactions = +r.transactions;
-//         r.chunk = +r.chunk;
-//         r.fraction = +r.fraction;
-//         r.start_datetime = new Date(r.start_datetime);
-//         r.end_datetime = new Date(r.end_datetime);
-//     });
-//
-//     // return d3.nest()
-//     //     .key(row => row.route)
-//     //     .map(data);
-// }
-
-
-
-// function prepareOutPeriods(out_periods) {
-//     out_periods.forEach(d => {
-//         d.start_datetime = new Date(d.start_datetime);
-//         d.end_datetime = new Date(d.end_datetime);
-//     });
-//
-//     return d3.nest()
-//         .key(d => d.route + '-' + d.vehicle)
-//         .map(out_periods);
-// }
-
-
-
-// function renderVehicle(container, d) {
-//     var stats_container = container.append("div").attr("class", "col-3");
-//
-//     stats_container.append("span").text("Транзакцій: ");
-//     stats_container.append("span").attr("class", "transactions").text(d.values.length);
-//
-//     stats_container.append("span").text("; Готівкою: ");
-//     stats_container.append("span").attr("class", "cash").text(inpc(d.summary.cash/d.summary.total));
-//
-//     stats_container.append("span").text("; Проїзний: ");
-//     stats_container.append("span").attr("class", "pro").text(inpc(d.summary.pro/d.summary.total));
-//
-//     stats_container.append("span").text("; Карткою: ");
-//     stats_container.append("span").attr("class", "bank").text(inpc(d.summary.bank/d.summary.total));
-// }

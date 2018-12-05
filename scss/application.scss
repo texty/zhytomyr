@@ -201,6 +201,19 @@ h6.header-badge {
   }
 }
 
+#marey-direction {
+
+  .nav-item {
+    a.nav-link {
+      background: white;
+
+      &.active {
+       background: #f6b033;
+      }
+    }
+  }
+}
+
 //.header-block {
 //  color: white;
 //  background-color: $main_color;

@@ -229,4 +229,9 @@ h6.header-badge {
     .share-btn:hover i {
       border-color: #424242; }
 
+#marey-direction .nav-item a.nav-link {
+  background: white; }
+  #marey-direction .nav-item a.nav-link.active {
+    background: #f6b033; }
+
 /*# sourceMappingURL=application.css.map */

@@ -8,7 +8,8 @@ var route_total_card_template = Handlebars.compile($("#route-total-card-template
 var context = {
     date_str: '2018-08-06',
     route_str: '1',
-    switch_state: 'marey'
+    switch_state: 'marey',
+    direction: '0'
 };
 
 var all_routes = ['1', '2', '3', '4', '4A', '5A','6', '7', '7A', '8', '9', '10', '12', '15A', '53', '53A',
@@ -58,6 +59,29 @@ d3.select("#change-chart")
         if (context.switch_state == 'map') map.invalidateSize();
     });
 
+var direction_pills = d3.select('#marey-direction')
+    .selectAll('a.nav-link')
+    .datum(function(){return d3.select(this).attr('data-direction')})
+    .on('click', function(d){
+        d3.event.preventDefault();
+
+        if (d == context.direction) return;
+        context.direction = d;
+        direction_pills.classed('active', dd => dd == context.direction)
+
+        d3.queue()
+            .defer(data_provider.getSegments.bind(this, context.date_str, context.route_str))
+            .defer(data_provider.getStops)
+            .await(function (err, segments, stops) {
+                if (err) throw err;
+
+                showMarey(
+                    segments.get(context.direction),
+                    stops.get(context.route_str).get(context.direction)
+                );
+            })
+    });
+
 
 
 function renderRoute(date_str, route_str) {
@@ -70,7 +94,7 @@ function renderRoute(date_str, route_str) {
         .defer(data_provider.getStops)
         .await(function (err, transactions, segments, gps_periods, out_periods, lines, stops) {
             if (err) throw err;
-
+window.stops = stops;
             var date_start = new Date(date_str + " 00:00");
             var date_end = new Date(date_start);
             date_end.setDate(date_start.getDate() + 1);
@@ -100,7 +124,7 @@ function renderRoute(date_str, route_str) {
             small_multiples_container.selectAll('*').remove();
 
             if  (context.switch_state == 'marey') {
-                showMarey(segments.get('0'), stops.get(context.route_str).get('0'));
+                showMarey(segments.get(context.direction), stops.get(context.route_str).get(context.direction));
             }
 
             var vehicle_container = small_multiples_container.selectAll('div.vehicle-card-container')

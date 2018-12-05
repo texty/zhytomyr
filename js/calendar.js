@@ -81,7 +81,7 @@ function calendar() {
                 my.selected_date(date_format(d.date));
             });
 
-            var colorScale = d3.scaleSequential(d3.interpolateBlues)
+            var colorScale = d3.scaleSequential(d3.interpolatePurples)
                 .domain([0, d3.max(heatdata.values())]);
 
             active_boxes

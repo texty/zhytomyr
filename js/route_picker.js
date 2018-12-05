@@ -44,7 +44,7 @@ function route_picker() {
                 if (!arguments.length) return heatdata;
                 heatdata = value;
 
-                var colorScale = d3.scaleSequential(d3.interpolateBlues)
+                var colorScale = d3.scaleSequential(d3.interpolatePurples)
                     .domain([0, d3.max(heatdata.values())]);
 
                 pills.style('background-color', d => colorScale(heatdata.get(d)));

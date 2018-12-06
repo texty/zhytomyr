@@ -92,9 +92,10 @@ function renderRoute(date_str, route_str) {
         .defer(data_provider.getOutPeriods.bind(this, date_str))
         .defer(data_provider.getRouteLines)
         .defer(data_provider.getStops)
-        .await(function (err, transactions, segments, gps_periods, out_periods, lines, stops) {
+        .defer(data_provider.getSegmentGeometries)
+        .await(function (err, transactions, segments, gps_periods, out_periods, lines, stops, seg_geo) {
             if (err) throw err;
-window.stops = stops;
+
             var date_start = new Date(date_str + " 00:00");
             var date_end = new Date(date_start);
             date_end.setDate(date_start.getDate() + 1);
@@ -115,7 +116,13 @@ window.stops = stops;
                     var chart = barchart()
                         .date_extent(date_extent)
                         .maxY(200)
-                        .data(d);
+                        .data(d)
+                        .brush_enabled(true)
+                        .onBrushChange(function(time_extent){
+                            var map_segments = segmetsForMap(segments, seg_geo, context, time_extent);
+                            map.drawSegments(map_segments);
+                            map.invalidateSize();
+                        });
                     d3.select(this).call(chart);
                 });
 
@@ -147,9 +154,14 @@ window.stops = stops;
 
             var line = lines.get(route_str);
 
-            map.showLine(line);
-            map.drawPoints(transactions.total.values);
+            // map.showLine(line);
+            map.drawPoints(transactions.total.values.filter(d => d.lat != 'NA' && d.on_route =='0'));
+            
+            
+            var map_segments = segmetsForMap(segments, seg_geo, context);
+            map.drawSegments(map_segments);
             map.invalidateSize();
+
         });
 }
 
@@ -167,4 +179,40 @@ function showMarey(segments, stops) {
         .stops_data(stops);
 
     svg.call(marey_chart);
+}
+
+
+function segmetsForMap(segments, seg_geo, context, time_extent) {
+
+    var alldir_segments = [];
+
+    segments.values().forEach(v => Array.prototype.push.apply(alldir_segments, v));
+
+    // todo datetime filtration here
+
+    if (time_extent) {
+        alldir_segments = alldir_segments.filter(d =>
+            d.start_datetime >= time_extent[0]
+            && d.start_datetime < time_extent[1]
+        )
+    }
+
+    var segs = d3.nest()
+        .key(d => d.stop_id)
+        .rollup(leaves => d3.sum(leaves, vv => vv.transactions))
+        .entries(alldir_segments);
+
+    return segs.map(function(s){
+        var geo = seg_geo.get(context.route_str).get(s.key)[0];
+
+        return {
+            type: "Feature",
+            geometry: geo.geometry,
+            properties: {
+                transactions: s.value,
+                stop_id: s.key,
+                direction: geo.properties.direction
+            }
+        }
+    });
 }

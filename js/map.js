@@ -5,6 +5,7 @@ var map = (function () {
     var mmapp
         , last_layer
         , points
+        , seg_layer
         ;
 
     var timeFormat = d3.timeFormat("%Y-%m-%d %H:%M:%S");
@@ -15,7 +16,7 @@ var map = (function () {
         maxBounds: L.latLngBounds(L.latLng(50.07, 28.29), L.latLng(50.47, 29.01))
     }).setView([50.2227664, 28.673982], 12);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {
+    L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
         attribution: 'Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL. ',
         id: 'background'
     }).addTo(mmapp);
@@ -49,15 +50,6 @@ var map = (function () {
            })
         });
 
-        var geojsonMarkerOptions = {
-            radius: 4,
-            fillColor: "#6d368b",
-            color: "white",
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-        };
-
         points = L.geoJSON(geojson, {
             pointToLayer: function (feature, latlng) {
                 return L.circleMarker(latlng, {
@@ -74,11 +66,24 @@ var map = (function () {
             }
 
         }).addTo(mmapp);
+    };
 
-        points.on("click", function(e){
-            console.log(e.layer)
-        })
+    module.drawSegments = function(segments) {
+        if (seg_layer) mmapp.removeLayer(seg_layer);
 
+        seg_layer = L.geoJSON(segments, {
+            style: function(feature) {
+                return {
+                    color: feature.properties.direction == '0' ? 'red' : 'green',
+                    weight: feature.properties.transactions / 10,
+                    opacity: .5,
+                    lineCap: 'butt',
+                    offset: feature.properties.transactions / 10 /2,
+                    smoothFactor: 5
+                }
+            }
+
+        }).addTo(mmapp);
     };
 
     window.mmapp = mmapp;

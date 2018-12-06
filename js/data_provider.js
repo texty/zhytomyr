@@ -134,22 +134,53 @@ var data_provider = (function() {
         }, cb);
     };
 
-    //
-    // module.getDataForRoute = function(date, route, cb) {
-    //     d3.queue()
-    //         .defer(d3.csv, "data/" + date + '/' + route + "/transactions.csv")
-    //         // .defer(d3.csv, "data/" + date + "/transactions.csv")
-    //         // .defer(d3.csv, "data/" + date + "/transactions.csv")
-    //         // .defer(d3.csv, "data/" + date + "/transactions.csv")
-    //         // .defer(d3.csv, "data/" + date + "/transactions.csv")
-    //         // .defer(d3.csv, "data/" + date + "/transactions.csv")
-    //         .await(function(err, transactions){
-    //             transactions.forEach(function(d){d.datetime = new Date(d.datetime)});
-    //
-    //
-    //             cb(err, transactions)
-    //         });
-    // };
+    
+    module.getDailySegments = function(cb) {
+        return module.cache_xhr(d3.csv, 'data/daily_segments.csv', function(segments){
+
+            segments = segments.map(function(s){
+                return {
+                    type: "Feature",
+                    geometry: JSON.parse(s.geometry),
+                    properties: {
+                        route: s.route,
+                        date: s.date,
+                        stop_id: s.stop_id,
+                        direction: s.direction,
+                        transactions: s.transactions
+                    }
+                };
+            });
+
+            return d3.nest()
+                .key(d => d.properties.date)
+                .key(d => d.properties.route)
+                .map(segments);
+        }, cb);
+    };
+
+
+    module.getSegmentGeometries = function(cb) {
+        return module.cache_xhr(d3.csv, 'data/segments_geo.csv', function(segments){
+
+            segments = segments.map(function(s){
+                return {
+                    type: "Feature",
+                    geometry: JSON.parse(s.geometry),
+                    properties: {
+                        route: s.route,
+                        stop_id: s.stop_id,
+                        direction: s.direction
+                    }
+                };
+            });
+
+            return d3.nest()
+                .key(d => d.properties.route)
+                .key(d => d.properties.stop_id)
+                .map(segments);
+        }, cb);
+    };
 
     var xhr_cache = {};
     module.cache_xhr = function(method, param1, postprocess, cb) {
@@ -164,9 +195,7 @@ var data_provider = (function() {
             return cb(err, processed);
         })
     };
-
-
-
+    
     //
     // function time_floor(date) {
     //     const band = 10;
@@ -174,7 +203,6 @@ var data_provider = (function() {
     //     date = moment(date);
     //     return date.minute(Math.floor(date.minute() / band) * band).second(0).toDate();
     // }
-
 
     return module;
 })();

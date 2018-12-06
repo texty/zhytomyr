@@ -62,6 +62,15 @@
         fill: $white-color;
       }
     }
+
+    .handle--custom {
+      shape-rendering: geometricPrecision;
+      fill: "#666";
+      fill-opacity: 0.8;
+      stroke: #000;
+      stroke-width: 1.5;
+      cursor: ew-resize;
+    }
   }
 
   margin-bottom: 1.5em;

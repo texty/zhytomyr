@@ -6,6 +6,10 @@ function barchart() {
         , periods
         , out_periods
         , date_extent = ["2018-08-06T00:00:00", "2018-08-07T00:00:00"]
+        , brush_enabled
+        , brush
+        , on_change_counter = 0
+        , dispatcher = d3.dispatch("change")
     // , xFormat = d3.format("0.2f")
         ;
 
@@ -96,6 +100,44 @@ function barchart() {
                 .attr("width", 2)
                 .attr("height", d => y(0) - y(d.values.length));
 
+            if (brush_enabled) {
+                var brush = d3.brushX()
+                    .extent([[0, 0], [width, height]])
+                    .on("brush", brushmoved);
+
+                var gBrush = g.append("g")
+                    .attr("class", "brush")
+                    .call(brush);
+
+                var handle = gBrush.selectAll(".handle--custom")
+                    .data([{type: "w"}, {type: "e"}])
+                    .enter()
+                    .append("path")
+                    .attr("class", "handle--custom")
+                    .attr("d", d3.arc()
+                        .innerRadius(0)
+                        .outerRadius(height / 2)
+                        .startAngle(0)
+                        .endAngle(function(d, i) { return i ? Math.PI : -Math.PI; }));
+
+                gBrush.call(brush.move, date_extent.map(x));
+
+                function brushmoved() {
+                    var s = d3.event.selection;
+
+                    if (s == null) {
+                        handle.attr("display", "none");
+                    } else {
+                        var sx = s.map(x.invert);
+                        handle
+                            .attr("display", null)
+                            .attr("transform", (d, i) => "translate(" + s[i] + "," + height / 2 + ")");
+
+                        dispatcher.call("change", this, sx);
+                    }
+                }
+            }
+
             return my;
 
         });
@@ -132,6 +174,17 @@ function barchart() {
         return my;
     };
 
+    my.brush_enabled = function(value) {
+        if (!arguments.length) return brush_enabled;
+        brush_enabled = value;
+        return my;
+    };
+
+    my.onBrushChange = function(value) {
+        if (!arguments.length) return;
+        dispatcher.on("change." + ++on_change_counter, value);
+        return my;
+    };
 
     function time_floor(date) {
         const band = 10;

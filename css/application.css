@@ -129,7 +129,8 @@ p {
       width: 3em;
       height: 2.5em;
       padding: 0.5rem 0 0;
-      color: #fff; }
+      color: #fff;
+      text-shadow: 0 -1px 0 #4a2366, 0 -1px 0 #4a2366, 0 1px 0 #4a2366, 0 1px 0 #4a2366, -1px 0 0 #4a2366, 1px 0 0 #4a2366, -1px 0 0 #4a2366, 1px 0 0 #4a2366, -1px -1px 0 #4a2366, 1px -1px 0 #4a2366, -1px 1px 0 #4a2366, 1px 1px 0 #4a2366, -1px -1px 0 #4a2366, 1px -1px 0 #4a2366, -1px 1px 0 #4a2366, 1px 1px 0 #4a2366; }
       #route-pills .nav-item .nav-link.active {
         font-weight: 800;
         text-decoration: underline; }

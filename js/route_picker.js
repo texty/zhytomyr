@@ -16,7 +16,6 @@ function route_picker() {
                 .data(data)
                 .enter()
                 .append("li")
-                .append("li")
                 .attr("class", "nav-item")
                 .append("a")
                 .attr("class", "nav-link")

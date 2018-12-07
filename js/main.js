@@ -121,6 +121,10 @@ function renderRoute(date_str, route_str) {
                         .onBrushChange(function(time_extent){
                             var map_segments = segmetsForMap(segments, seg_geo, context, time_extent);
                             map.drawSegments(map_segments);
+
+                            var points = pointsForMap(transactions, time_extent);
+                            map.drawPoints(points);
+                            
                             map.invalidateSize();
                         });
                     d3.select(this).call(chart);
@@ -154,10 +158,12 @@ function renderRoute(date_str, route_str) {
 
             var line = lines.get(route_str);
 
-            // map.showLine(line);
-            map.drawPoints(transactions.total.values.filter(d => d.lat != 'NA' && d.on_route =='0'));
-            
-            
+            map.showLine(line);
+
+            var points = pointsForMap(transactions);
+            map.drawPoints(points);
+
+
             var map_segments = segmetsForMap(segments, seg_geo, context);
             map.drawSegments(map_segments);
             map.invalidateSize();
@@ -215,4 +221,18 @@ function segmetsForMap(segments, seg_geo, context, time_extent) {
             }
         }
     });
+}
+
+
+function pointsForMap(transactions, time_extent) {
+    var points = transactions.total.values.filter(d => d.lat != 'NA' && d.on_route =='0');
+
+    if (time_extent) {
+        points = points.filter(d =>
+            d.datetime >= time_extent[0]
+            && d.datetime < time_extent[1]
+        )
+    }
+
+    return points;
 }

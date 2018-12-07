@@ -107,13 +107,32 @@ p {
     .heatmap-calendar .month-grid .days .box.invisible {
       cursor: inherit; }
     .heatmap-calendar .month-grid .days .box.active {
-      color: #4a2366;
+      color: #fff;
       cursor: pointer; }
     .heatmap-calendar .month-grid .days .box.selected {
       color: #fff;
+      font-weight: 800;
+      text-decoration: underline;
       background-color: #4a2366; }
   .heatmap-calendar .month-grid .day-names-row .box {
     color: #777; }
+
+#route-pills {
+  margin-top: 1.5em;
+  margin-bottom: 1em; }
+  #route-pills .nav-item {
+    font-size: 1em;
+    margin-right: 0.1em;
+    margin-bottom: 0.1em;
+    text-align: center; }
+    #route-pills .nav-item .nav-link {
+      width: 3em;
+      height: 2.5em;
+      padding: 0.5rem 0 0;
+      color: #fff; }
+      #route-pills .nav-item .nav-link.active {
+        font-weight: 800;
+        text-decoration: underline; }
 
 body {
   color: #424242; }
@@ -158,22 +177,6 @@ h6.header-badge {
 
 #map {
   height: 100%; }
-
-#route-pills {
-  margin-top: 1.5em;
-  margin-bottom: 1em; }
-  #route-pills .nav-link.active, #route-pills .show > .nav-link {
-    background-color: #4a2366; }
-  #route-pills .nav-item {
-    width: 2em;
-    height: 1.5em;
-    font-size: 1em;
-    margin-right: 0.8em;
-    margin-bottom: 0.8em; }
-    #route-pills .nav-item .nav-link {
-      width: 3em;
-      padding-left: 0.5em;
-      padding-right: 0.5em; }
 
 .summary-header {
   text-transform: uppercase;

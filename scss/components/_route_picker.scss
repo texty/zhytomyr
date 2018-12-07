@@ -1,0 +1,31 @@
+
+#route-pills {
+  margin-top:1.5em;
+  margin-bottom:1em;
+
+  .nav-link.active, .show > .nav-link {
+    //background-color: $color1;
+  }
+
+  .nav-item {
+    font-size: 1em;
+
+    margin-right: 0.1em;
+    margin-bottom: 0.1em;
+
+    text-align: center;
+
+    .nav-link {
+      width: 3em;
+      height: 2.5em;
+      padding: 0.5rem 0 0;
+
+      color: $white;
+
+      &.active {
+        font-weight: 800;
+        text-decoration: underline;
+      }
+    }
+  }
+}

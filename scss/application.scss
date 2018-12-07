@@ -14,6 +14,7 @@ $main-color: $color1;
 @import "components/barchart";
 @import "components/marey";
 @import "components/calendar";
+@import "components/route_picker";
 
 
 body {
@@ -82,33 +83,6 @@ h6.header-badge {
 
 #map {
   height: 100%
-}
-
-#route-pills {
-  margin-top:1.5em;
-  margin-bottom:1em;
-
-  .nav-link.active, .show > .nav-link {
-    background-color: $color1;
-  }
-
-  .nav-item {
-    width: 2em;
-    height: 1.5em;
-    font-size: 1em;
-
-    margin-right: 0.8em;
-    margin-bottom: 0.8em;
-
-    .nav-link {
-      width: 3em;
-      padding-left: 0.5em;
-
-      padding-right: 0.5em;
-
-    }
-  }
-
 }
 
 .summary-header{

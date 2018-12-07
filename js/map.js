@@ -10,6 +10,9 @@ var map = (function () {
 
     var timeFormat = d3.timeFormat("%Y-%m-%d %H:%M:%S");
 
+    var scale = d3.scaleLinear()
+        .range([0, 40]);
+
     mmapp = L.map('map', {
         maxZoom: 18,
         minZoom: 11,
@@ -71,14 +74,16 @@ var map = (function () {
     module.drawSegments = function(segments) {
         if (seg_layer) mmapp.removeLayer(seg_layer);
 
+        scale.domain([0, d3.max(segments, s => s.properties.transactions)]);
+
         seg_layer = L.geoJSON(segments, {
             style: function(feature) {
                 return {
                     color: feature.properties.direction == '0' ? 'red' : 'green',
-                    weight: feature.properties.transactions / 10,
+                    weight: scale(feature.properties.transactions),
                     opacity: .5,
                     lineCap: 'butt',
-                    offset: feature.properties.transactions / 10 /2,
+                    offset: scale(feature.properties.transactions) /2,
                     smoothFactor: 5
                 }
             }

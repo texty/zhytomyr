@@ -63,12 +63,14 @@
       }
 
       &.active {
-        color: $color1;
+        color: $white;
         cursor: pointer;
       }
 
       &.selected {
         color: $white;
+        font-weight: 800;
+        text-decoration: underline;
         background-color: $color1;
       }
     }

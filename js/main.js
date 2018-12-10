@@ -9,7 +9,8 @@ var context = {
     date_str: '2018-08-06',
     route_str: '1',
     switch_state: 'marey',
-    direction: '0'
+    direction: '0',
+    time_extent: null
 };
 
 var all_routes = ['1', '2', '3', '4', '4A', '5A','6', '7', '7A', '8', '9', '10', '12', '15A', '53', '53A',
@@ -67,7 +68,7 @@ var direction_pills = d3.select('#marey-direction')
 
         if (d == context.direction) return;
         context.direction = d;
-        direction_pills.classed('active', dd => dd == context.direction)
+        direction_pills.classed('active', dd => dd == context.direction);
 
         d3.queue()
             .defer(data_provider.getSegments.bind(this, context.date_str, context.route_str))
@@ -77,7 +78,8 @@ var direction_pills = d3.select('#marey-direction')
 
                 showMarey(
                     segments.get(context.direction),
-                    stops.get(context.route_str).get(context.direction)
+                    stops.get(context.route_str).get(context.direction),
+                    context.time_domain
                 );
             })
     });
@@ -102,10 +104,10 @@ function renderRoute(date_str, route_str) {
 
             var date_extent = [date_start, date_end];
 
-            var time_domain = d3.extent(transactions.total.values, d => d.datetime);
+            context.time_domain = d3.extent(transactions.total.values, d => d.datetime);
             
             if  (context.switch_state == 'marey') {
-                showMarey(segments.get(context.direction), stops.get(context.route_str).get(context.direction), time_domain);
+                showMarey(segments.get(context.direction), stops.get(context.route_str).get(context.direction), context.time_domain);
             }
 
             var total_container = d3.select("#route-total-container");
@@ -122,7 +124,7 @@ function renderRoute(date_str, route_str) {
                         .maxY(200)
                         .data(d)
                         .brush_enabled(true)
-                        .brush_extent(time_domain)
+                        .brush_extent(context.time_domain)
                         .onBrushChange(function(time_extent){
                             var map_segments = segmetsForMap(segments, seg_geo, context, time_extent);
                             map.drawSegments(map_segments);

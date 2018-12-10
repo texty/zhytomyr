@@ -102,7 +102,11 @@ function renderRoute(date_str, route_str) {
 
             var date_extent = [date_start, date_end];
 
-            // console.log(date_extent)
+            var time_domain = d3.extent(transactions.total.values, d => d.datetime);
+            
+            if  (context.switch_state == 'marey') {
+                showMarey(segments.get(context.direction), stops.get(context.route_str).get(context.direction), time_domain);
+            }
 
             var total_container = d3.select("#route-total-container");
             total_container.selectAll("*").remove();
@@ -118,14 +122,17 @@ function renderRoute(date_str, route_str) {
                         .maxY(200)
                         .data(d)
                         .brush_enabled(true)
+                        .brush_extent(time_domain)
                         .onBrushChange(function(time_extent){
                             var map_segments = segmetsForMap(segments, seg_geo, context, time_extent);
                             map.drawSegments(map_segments);
 
                             var points = pointsForMap(transactions, time_extent);
                             map.drawPoints(points);
-                            
+
                             map.invalidateSize();
+
+                            context.marey_chart.time_domain(time_extent);
                         });
                     d3.select(this).call(chart);
                 });
@@ -134,9 +141,6 @@ function renderRoute(date_str, route_str) {
             var small_multiples_container = d3.select("#small-multiples");
             small_multiples_container.selectAll('*').remove();
 
-            if  (context.switch_state == 'marey') {
-                showMarey(segments.get(context.direction), stops.get(context.route_str).get(context.direction));
-            }
 
             var vehicle_container = small_multiples_container.selectAll('div.vehicle-card-container')
                 .data(transactions.by_vehicles, function(d){return d.key})
@@ -157,7 +161,6 @@ function renderRoute(date_str, route_str) {
             
 
             var line = lines.get(route_str);
-
             map.showLine(line);
 
             var points = pointsForMap(transactions);
@@ -171,7 +174,7 @@ function renderRoute(date_str, route_str) {
         });
 }
 
-function showMarey(segments, stops) {
+function showMarey(segments, stops, time_domain) {
     var svg = d3.select("#marey-svg");
     svg.selectAll("*").remove();
     
@@ -183,12 +186,13 @@ function showMarey(segments, stops) {
         return;
     }
 
-    var marey_chart = marey()
+    context.marey_chart = marey()
         .data(segments)
+        .time_domain(time_domain)
         .stops_data(stops)
         .legend_container("#marey-legend-container");
 
-    svg.call(marey_chart);
+    svg.call(context.marey_chart);
 }
 
 

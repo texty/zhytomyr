@@ -4,6 +4,7 @@ function marey() {
         , stops_data = []
         , dateFormat = d3.timeFormat("%H:%M")
         , legend_container
+        , time_domain
         // , xFormat = d3.format("0.2f")
         ;
 
@@ -27,10 +28,10 @@ function marey() {
                 ;
 
             // todo Додати налаштування EXTEnT.
-            var zoom = d3.zoom()
-                .scaleExtent([1, 10])
-                .translateExtent([[-width*2, 0], [width*2, 0]])
-                .on("zoom", zoomed);
+            // var zoom = d3.zoom()
+            //     .scaleExtent([1, 10])
+            //     .translateExtent([[-width*2, 0], [width*2, 0]])
+            //     .on("zoom", zoomed);
 
             svg.attr("height", h);
 
@@ -56,7 +57,8 @@ function marey() {
             // x.domain(["2018-08-06 00:00:00", "2018-08-07 00:00:00"]
             //     .map(function(d){return new Date(d)}));
 
-            x.domain(d3.extent(data, d => d.start_datetime));
+            // x.domain(d3.extent(data, d => d.start_datetime));
+            x.domain(time_domain);
 
             var yAxis = d3.axisLeft(y)
                 .tickSizeOuter(0)
@@ -143,7 +145,7 @@ function marey() {
             //         circle.style('opacity', dd => dd.vehicle == d.values[0].vehicle ? 1 : 0.2)
             //     });
 
-            svg.call(zoom);
+            // svg.call(zoom);
 
             if (legend_container) {
                 var legend_svg = d3.select(legend_container)
@@ -184,17 +186,31 @@ function marey() {
                     .attr("y", 40);
             }
 
-            function zoomed() {
-                var xt = d3.event.transform.rescaleX(x);
-                console.log(d3.event.transform);
-                gX1.call(xAxis1.scale(xt));
-                gX2.call(xAxis2.scale(xt));
+            //
+            // function zoomed() {
+            //     var xt = d3.event.transform.rescaleX(x);
+            //     console.log(d3.event.transform);
+            //     gX1.call(xAxis1.scale(xt));
+            //     gX2.call(xAxis2.scale(xt));
+            //
+            //     pathGen.x(d => xt(d.start_datetime));
+            //
+            //     pp.attr("d", d => pathGen(d.values));
+            //     circle.attr("cx", d => xt(d.start_datetime));
+            // }
 
-                pathGen.x(d => xt(d.start_datetime));
-
+            my.onZoomChanged = function(domain) {
+                x.domain(domain);
+                
+                gX1.call(xAxis1);
+                gX2.call(xAxis2);
+            
+                pathGen.x(d => x(d.start_datetime));
+            
                 pp.attr("d", d => pathGen(d.values));
-                circle.attr("cx", d => xt(d.start_datetime));
-            }
+                circle.attr("cx", d => x(d.start_datetime));
+            };
+
 
             return my;
         });
@@ -215,6 +231,17 @@ function marey() {
     my.legend_container = function(value) {
         if (!arguments.length) return legend_container;
         legend_container = value;
+        return my;
+    };
+
+    my.time_domain = function(value) {
+        if (!arguments.length) return time_domain;
+
+        if (value == time_domain) return my;
+
+        time_domain = value;
+        if (my.onZoomChanged) my.onZoomChanged(time_domain);
+
         return my;
     };
 

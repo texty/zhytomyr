@@ -100,11 +100,11 @@ var data_provider = (function() {
     
 
     module.getRouteLines = function(cb) {
-        return module.cache_xhr(d3.json, 'data/route_lines.geojson', function(lines){
+        return module.cache_xhr(d3.json, 'data/route_lines.geojson', function(feature_collection){
 
             return d3.nest()
-                .key(d => d.route)
-                .map(lines);
+                .key(d => d.properties.route)
+                .map(feature_collection.features);
         }, cb);
     };
 

@@ -8,6 +8,7 @@ function barchart() {
         , date_extent = ["2018-08-06T00:00:00", "2018-08-07T00:00:00"]
         , brush_enabled
         , brush
+        , brush_extent
         , on_change_counter = 0
         , dispatcher = d3.dispatch("change")
     // , xFormat = d3.format("0.2f")
@@ -120,7 +121,8 @@ function barchart() {
                         .startAngle(0)
                         .endAngle(function(d, i) { return i ? Math.PI : -Math.PI; }));
 
-                gBrush.call(brush.move, date_extent.map(x));
+                if (!brush_extent) brush_extent = date_extent;
+                gBrush.call(brush.move, brush_extent.map(x));
 
                 function brushmoved() {
                     var s = d3.event.selection;
@@ -136,6 +138,8 @@ function barchart() {
                         dispatcher.call("change", this, sx);
                     }
                 }
+                
+
             }
 
             return my;
@@ -183,6 +187,12 @@ function barchart() {
     my.onBrushChange = function(value) {
         if (!arguments.length) return;
         dispatcher.on("change." + ++on_change_counter, value);
+        return my;
+    };
+
+    my.brush_extent = function(value) {
+        if (!arguments.length) return brush_extent;
+        brush_extent = value;
         return my;
     };
 

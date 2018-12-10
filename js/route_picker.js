@@ -44,9 +44,12 @@ function route_picker() {
                 heatdata = value;
 
                 var colorScale = d3.scaleSequential(d3.interpolatePurples)
-                    .domain([0, d3.max(heatdata.values())]);
+                    .domain([-20, d3.max(heatdata.values())]);
+
+                var threshold = colorScale.domain()[1] / 3;
 
                 pills.style('background-color', d => colorScale(heatdata.get(d)));
+                pills.classed('light', d => heatdata.get(d) < threshold);
 
                 return my;
             };

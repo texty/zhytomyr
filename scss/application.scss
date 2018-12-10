@@ -190,8 +190,12 @@ h6.header-badge {
     a.nav-link {
       background: white;
 
+      color: $color1;
+      border: 4px solid transparent;
+
       &.active {
-       background: #f6b033;
+       //background: #f6b033;
+        border-color: $color4;
       }
     }
   }

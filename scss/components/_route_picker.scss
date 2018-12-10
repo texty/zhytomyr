@@ -10,68 +10,76 @@
   .nav-item {
     font-size: 1em;
 
-    margin-right: 0.1em;
-    margin-bottom: 0.1em;
+    //margin-right: 0.1em;
+    //margin-bottom: 0.1em;
 
     text-align: center;
 
     .nav-link {
       width: 3em;
       height: 2.5em;
-      padding: 0.5rem 0 0;
+      padding: 0.2rem 0 0;
 
       color: $white;
 
+      border: 4px solid transparent;
+
       &.active {
         font-weight: 800;
-        text-decoration: underline;
+        //text-decoration: underline;
+        border-color: #f6b033;
       }
 
-      text-shadow:
-              -0   -1px 0   $color1,
-              0   -1px 0   $color1,
-              -0    1px 0   $color1,
-              0    1px 0   $color1,
-              -1px -0   0   $color1,
-              1px -0   0   $color1,
-              -1px  0   0   $color1,
-              1px  0   0   $color1,
-              -1px -1px 0   $color1,
-              1px -1px 0   $color1,
-              -1px  1px 0   $color1,
-              1px  1px 0   $color1,
-              -1px -1px 0   $color1,
-              1px -1px 0   $color1,
-              -1px  1px 0   $color1,
-              1px  1px 0   $color1;
+      &.light {
+        color: $color1;
+      }
+
+      //text-shadow:
+      //        -0   -1px 0   $color1,
+      //        0   -1px 0   $color1,
+      //        -0    1px 0   $color1,
+      //        0    1px 0   $color1,
+      //        -1px -0   0   $color1,
+      //        1px -0   0   $color1,
+      //        -1px  0   0   $color1,
+      //        1px  0   0   $color1,
+      //        -1px -1px 0   $color1,
+      //        1px -1px 0   $color1,
+      //        -1px  1px 0   $color1,
+      //        1px  1px 0   $color1,
+      //        -1px -1px 0   $color1,
+      //        1px -1px 0   $color1,
+      //        -1px  1px 0   $color1,
+      //        1px  1px 0   $color1;
+
+    //  text-shadow:
+    //          -0   -2px 0   $color1,
+    //          0   -2px 0   $color1,
+    //          -0    2px 0   $color1,
+    //          0    2px 0   $color1,
+    //          -2px -0   0   $color1,
+    //          2px -0   0   $color1,
+    //          -2px  0   0   $color1,
+    //          2px  0   0   $color1,
+    //          -1px -2px 0   $color1,
+    //          1px -2px 0   $color1,
+    //          -1px  2px 0   $color1,
+    //          1px  2px 0   $color1,
+    //          -2px -1px 0   $color1,
+    //          2px -1px 0   $color1,
+    //          -2px  1px 0   $color1,
+    //          2px  1px 0   $color1,
+    //          -2px -2px 0   $color1,
+    //          2px -2px 0   $color1,
+    //          -2px  2px 0   $color1,
+    //          2px  2px 0   $color1,
+    //          -2px -2px 0   $color1,
+    //          2px -2px 0   $color1,
+    //          -2px  2px 0   $color1,
+    //          2px  2px 0   $color1;
+
+
+
     }
-
-
-  //  text-shadow:
-  //          -0   -2px 0   $color1,
-  //          0   -2px 0   $color1,
-  //          -0    2px 0   $color1,
-  //          0    2px 0   $color1,
-  //          -2px -0   0   $color1,
-  //          2px -0   0   $color1,
-  //          -2px  0   0   $color1,
-  //          2px  0   0   $color1,
-  //          -1px -2px 0   $color1,
-  //          1px -2px 0   $color1,
-  //          -1px  2px 0   $color1,
-  //          1px  2px 0   $color1,
-  //          -2px -1px 0   $color1,
-  //          2px -1px 0   $color1,
-  //          -2px  1px 0   $color1,
-  //          2px  1px 0   $color1,
-  //          -2px -2px 0   $color1,
-  //          2px -2px 0   $color1,
-  //          -2px  2px 0   $color1,
-  //          2px  2px 0   $color1,
-  //          -2px -2px 0   $color1,
-  //          2px -2px 0   $color1,
-  //          -2px  2px 0   $color1,
-  //          2px  2px 0   $color1;
-  //}
   }
 }

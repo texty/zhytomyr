@@ -102,19 +102,20 @@ p {
     margin-bottom: 0.5em; }
   .heatmap-calendar .month-grid .box {
     width: 2em;
-    height: 1.5em;
+    height: 2em;
+    border: 4px solid transparent;
     position: relative;
     align-items: center;
     justify-content: center;
-    text-align: left;
+    text-align: center;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none; }
   .heatmap-calendar .month-grid .days .box {
     color: #777;
-    padding-left: 0.5em;
-    border-radius: 0; }
+    border-radius: 0;
+    margin-right: -2px; }
     .heatmap-calendar .month-grid .days .box.invisible {
       cursor: inherit; }
     .heatmap-calendar .month-grid .days .box.active {
@@ -123,8 +124,9 @@ p {
     .heatmap-calendar .month-grid .days .box.selected {
       color: #fff;
       font-weight: 800;
-      text-decoration: underline;
-      background-color: #4a2366; }
+      background-color: #4a2366;
+      border-color: #f6b033;
+      z-index: 999; }
   .heatmap-calendar .month-grid .day-names-row .box {
     color: #777; }
 
@@ -133,18 +135,18 @@ p {
   margin-bottom: 1em; }
   #route-pills .nav-item {
     font-size: 1em;
-    margin-right: 0.1em;
-    margin-bottom: 0.1em;
     text-align: center; }
     #route-pills .nav-item .nav-link {
       width: 3em;
       height: 2.5em;
-      padding: 0.5rem 0 0;
+      padding: 0.2rem 0 0;
       color: #fff;
-      text-shadow: 0 -1px 0 #4a2366, 0 -1px 0 #4a2366, 0 1px 0 #4a2366, 0 1px 0 #4a2366, -1px 0 0 #4a2366, 1px 0 0 #4a2366, -1px 0 0 #4a2366, 1px 0 0 #4a2366, -1px -1px 0 #4a2366, 1px -1px 0 #4a2366, -1px 1px 0 #4a2366, 1px 1px 0 #4a2366, -1px -1px 0 #4a2366, 1px -1px 0 #4a2366, -1px 1px 0 #4a2366, 1px 1px 0 #4a2366; }
+      border: 4px solid transparent; }
       #route-pills .nav-item .nav-link.active {
         font-weight: 800;
-        text-decoration: underline; }
+        border-color: #f6b033; }
+      #route-pills .nav-item .nav-link.light {
+        color: #4a2366; }
 
 body {
   color: #424242; }
@@ -259,8 +261,10 @@ h6.header-badge {
   flex-direction: row; }
 
 #marey-direction .nav-item a.nav-link {
-  background: white; }
+  background: white;
+  color: #4a2366;
+  border: 4px solid transparent; }
   #marey-direction .nav-item a.nav-link.active {
-    background: #f6b033; }
+    border-color: #f6b033; }
 
 /*# sourceMappingURL=application.css.map */

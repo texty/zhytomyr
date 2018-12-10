@@ -81,7 +81,17 @@ function calendar() {
                 my.selected_date(date_format(d.date));
             });
 
+
+            // var colorScale = d3.scaleLinear()
+            //     .interpolate(d3.interpolateHcl)
+            //     // .range([d3.rgb("#F0EEF2"), d3.rgb('#4a2366')]);
+            //     .range([d3.rgb("#F4DEED"), d3.rgb('#4a2366')]);
+
+            // #4a2366
+
             var colorScale = d3.scaleSequential(d3.interpolatePurples)
+
+            colorScale
                 .domain([0, d3.max(heatdata.values())]);
 
             active_boxes
@@ -93,7 +103,7 @@ function calendar() {
 
                 if (date_str != selected_date) {
                     selected_date = date_str;
-                
+
                     active_boxes.classed("selected", d => d.active && date_format(d.date) == selected_date);
                     dispatcher.call("change", this, selected_date);
                 }

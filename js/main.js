@@ -54,10 +54,10 @@ d3.select("#change-chart")
 
         d3.select(".marey-container").classed('hidden', context.switch_state != 'marey');
         d3.select("#map-container").classed('hidden', context.switch_state != 'map');
+        if (context.switch_state == 'map') map.invalidateSize().fitBounds();
 
         d3.select(this).text(context.switch_state == 'map' ? 'Дивитись графік руху по зупинках' : 'Дивитись карту');
 
-        if (context.switch_state == 'map') map.invalidateSize();
     });
 
 var direction_pills = d3.select('#marey-direction')
@@ -132,8 +132,6 @@ function renderRoute(date_str, route_str) {
                             var points = pointsForMap(transactions, time_extent);
                             map.drawPoints(points);
 
-                            map.invalidateSize();
-
                             context.marey_chart.time_domain(time_extent);
                         });
                     d3.select(this).call(chart);
@@ -171,8 +169,8 @@ function renderRoute(date_str, route_str) {
 
             var map_segments = segmetsForMap(segments, seg_geo, context);
             map.drawSegments(map_segments);
-            map.invalidateSize();
 
+            map.invalidateSize().fitBounds();
         });
 }
 
@@ -230,7 +228,7 @@ function segmetsForMap(segments, seg_geo, context, time_extent) {
                 direction: geo.properties.direction
             }
         }
-    });
+    }).filter(f => f.geometry.type == 'LineString');
 }
 
 

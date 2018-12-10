@@ -79,7 +79,7 @@ var map = (function () {
         seg_layer = L.geoJSON(segments, {
             style: function(feature) {
                 return {
-                    color: feature.properties.direction == '0' ? 'red' : 'green',
+                    color: feature.properties.direction == '0' ? '#4a2366' : '#0B5D66',
                     weight: scale(feature.properties.transactions),
                     opacity: .5,
                     lineCap: 'butt',
@@ -101,6 +101,13 @@ var map = (function () {
 
     module.invalidateSize = function() {
         if (mmapp) mmapp.invalidateSize();
+        return module;
+    };
+    
+    module.fitBounds = function() {
+        if (!seg_layer) return module;
+
+        mmapp.fitBounds(seg_layer.getBounds());
         return module;
     };
 

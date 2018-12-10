@@ -174,6 +174,9 @@ function renderRoute(date_str, route_str) {
 function showMarey(segments, stops) {
     var svg = d3.select("#marey-svg");
     svg.selectAll("*").remove();
+    
+    d3.select("#marey-legend-container").selectAll('*').remove();
+    
 
     if (!segments || !segments.length) {
         console.log("No marey data for route ");
@@ -182,7 +185,8 @@ function showMarey(segments, stops) {
 
     var marey_chart = marey()
         .data(segments)
-        .stops_data(stops);
+        .stops_data(stops)
+        .legend_container("#marey-legend-container");
 
     svg.call(marey_chart);
 }

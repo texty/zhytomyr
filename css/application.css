@@ -60,7 +60,8 @@ p {
     fill-opacity: 0.5;
     stroke: white;
     stroke-opacity: 0.7;
-    shape-rendering: geometricPrecision; }
+    shape-rendering: geometricPrecision;
+    cursor: pointer; }
   #marey-container svg path {
     shape-rendering: geometricPrecision;
     fill: none;
@@ -69,6 +70,16 @@ p {
     stroke-opacity: 0.1; }
   #marey-container svg text {
     fill: white; }
+
+#marey-legend-container circle {
+  fill: #f6b033;
+  fill-opacity: 0.5;
+  stroke: white;
+  stroke-opacity: 0.7;
+  shape-rendering: geometricPrecision; }
+#marey-legend-container text {
+  font-size: 10px;
+  text-anchor: middle; }
 
 .heatmap-calendar .month-year-title-container i {
   vertical-align: middle;
@@ -103,7 +114,7 @@ p {
   .heatmap-calendar .month-grid .days .box {
     color: #777;
     padding-left: 0.5em;
-    border-radius: 0.2em; }
+    border-radius: 0; }
     .heatmap-calendar .month-grid .days .box.invisible {
       cursor: inherit; }
     .heatmap-calendar .month-grid .days .box.active {
@@ -168,7 +179,7 @@ h6.header-badge {
   padding-left: 0.2em;
   padding-right: 0.2em;
   margin-right: 0.3em;
-  border-radius: 0.3em; }
+  border-radius: 0; }
   h6.header-badge.dark-bg {
     color: white;
     background-color: #4a2366; }
@@ -239,6 +250,13 @@ h6.header-badge {
     color: #424242; }
     .share-btn:hover i {
       border-color: #424242; }
+
+.nav-pills .nav-link {
+  border-radius: 0 !important; }
+
+.marey-direction-legend-container {
+  display: flex;
+  flex-direction: row; }
 
 #marey-direction .nav-item a.nav-link {
   background: white; }

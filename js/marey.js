@@ -3,6 +3,7 @@ function marey() {
     var data = []
         , stops_data = []
         , dateFormat = d3.timeFormat("%H:%M")
+        , legend_container
         // , xFormat = d3.format("0.2f")
         ;
 
@@ -123,6 +124,19 @@ function marey() {
                 .attr('cx', function(d) {return x(d.start_datetime)})
                 .attr('r', d => radiusScale(d.transactions));
 
+            circle
+                .on('mouseenter', function(d){
+                    d3.select(this).style("fill-opacity", '1')
+                    console.log('over')
+                })
+                .on("mouseleave", function(d){
+                    d3.select(this).style('fill-opacity', null);
+                })
+                .on('click', function(d){
+                    console.log(d);
+                });
+
+
             // pp
             //     .on('mouseover', function(d){
             //         pp.style('stroke-opacity', dd => d.values[0].vehicle == dd.values[0].vehicle ? 1 : 0.2)
@@ -130,6 +144,45 @@ function marey() {
             //     });
 
             svg.call(zoom);
+
+            if (legend_container) {
+                var legend_svg = d3.select(legend_container)
+                    .append("div")
+                    .attr("class", "marey-legend")
+                    .append("svg")
+                    .attr("width", "150px")
+                    .attr("height", "45px");
+
+                var legend_g = legend_svg.append("g")
+                    .attr("transform", "translate(25, 0)");
+
+
+                var x_ = 0;
+                var legend_data = [50, 20, 10, 5, 1].map(function(d){
+                    var r = radiusScale(d);
+                    var res = {r: r, x: x_, orig: d};
+                    x_ += r * 2 + 2;
+                    return res;
+                });
+
+
+                var one_g = legend_g
+                    .selectAll("g.legend")
+                    .data(legend_data)
+                    .enter()
+                    .append("g")
+                    .attr("class", "legend")
+                    .attr("transform", (d,i) => "translate(" + 25 * i + ", 0)");
+
+                one_g.append("circle")
+                    .attr("r", d => d.r)
+                    .attr('cy', d => 17)
+                    .attr('cx', 0);
+
+                one_g.append("text")
+                    .text(d => d.orig)
+                    .attr("y", 40);
+            }
 
             function zoomed() {
                 var xt = d3.event.transform.rescaleX(x);
@@ -156,6 +209,12 @@ function marey() {
     my.stops_data = function(value) {
         if (!arguments.length) return stops_data;
         stops_data = value;
+        return my;
+    };
+
+    my.legend_container = function(value) {
+        if (!arguments.length) return legend_container;
+        legend_container = value;
         return my;
     };
 

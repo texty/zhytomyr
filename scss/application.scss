@@ -68,7 +68,7 @@ h6.header-badge {
   padding-right: 0.2em;
   margin-right: 0.3em;
 
-  border-radius: 0.3em;
+  border-radius: 0;
 
   &.dark-bg {
     color: $white_color;
@@ -173,6 +173,15 @@ h6.header-badge {
       border-color: $main-text;
     }
   }
+}
+
+.nav-pills .nav-link {
+  border-radius: 0 !important;
+}
+
+.marey-direction-legend-container {
+  display: flex;
+  flex-direction: row;
 }
 
 #marey-direction {

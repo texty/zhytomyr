@@ -122,11 +122,18 @@ function renderRoute(date_str, route_str) {
             console.log(totalMaxY);
             console.log(vehiclesMaxY);
 
-            total_container
+            var total_barchart_container = total_container
                 .datum(transactions.total)
                 .append("div").attr("class", "col-12")
-                .html(d => route_total_card_template(d))
-                .select('svg')
+                .append("div").attr("class", "row");
+
+            var total_summary_container = total_barchart_container
+                .append("div").attr("class", "route-total-summary")
+                .html(d => route_total_card_template(d));
+                
+            total_barchart_container.append("div").attr("class", "col-12")
+                .append("svg")
+                .attr("width", "100%").attr("data-min-height", 65).attr("height", 65).attr("class", "dark-bg")
                 .each(function(d) {
                     var chart = barchart()
                         .date_extent(date_extent)
@@ -142,6 +149,8 @@ function renderRoute(date_str, route_str) {
                             map.drawPoints(points);
 
                             context.marey_chart.time_domain(time_extent);
+
+                            renderSummary(transactions, time_extent, total_summary_container)
                         });
                     d3.select(this).call(chart);
                 });
@@ -212,8 +221,6 @@ function segmetsForMap(segments, seg_geo, context, time_extent) {
 
     segments.values().forEach(v => Array.prototype.push.apply(alldir_segments, v));
 
-    // todo datetime filtration here
-
     if (time_extent) {
         alldir_segments = alldir_segments.filter(d =>
             d.start_datetime >= time_extent[0]
@@ -253,4 +260,19 @@ function pointsForMap(transactions, time_extent) {
     }
 
     return points;
+}
+
+function renderSummary(transactions, time_extent, container) {
+    var tr = transactions.total.values;
+
+    if (time_extent) {
+        tr = transactions.total.values.filter(d =>
+            d.datetime >= time_extent[0]
+            && d.datetime < time_extent[1]
+        )
+    }
+
+    var summary = calcSummary(tr);
+    
+    container.html(route_total_card_template({summary: summary}));
 }

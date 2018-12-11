@@ -9,7 +9,7 @@ function barchart() {
         , brush_enabled
         , brush
         , brush_extent
-        , interactive_summary = false
+        , interactive_summary_container
         , on_change_counter = 0
         , dispatcher = d3.dispatch("change")
     // , xFormat = d3.format("0.2f")
@@ -50,7 +50,7 @@ function barchart() {
                 .tickSizeInner(15)
                 .tickPadding(5)
                 .ticks(1)
-                .tickFormat(d3.format(".0f"))
+                .tickFormat(d3.format(".0f"));
 
             if (periods) {
                 g.append("g")
@@ -191,11 +191,11 @@ function barchart() {
         return my;
     };
     
-    my.interactive_summary = function(value) {
-        if (!arguments.length) return interactive_summary;
-        interactive_summary = value;
-        return my;
-    };
+    // my.interactive_summary_container = function(value) {
+    //     if (!arguments.length) return interactive_summary_container;
+    //     interactive_summary_container = value;
+    //     return my;
+    // };
 
     function time_floor(date) {
         const band = 10;

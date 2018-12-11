@@ -78,7 +78,7 @@ var direction_pills = d3.select('#marey-direction')
 
                 showMarey(
                     segments.get(context.direction),
-                    stops.get(context.route_str).get(context.direction),
+                    stops.by_route_dir.get(context.route_str).get(context.direction),
                     context.time_domain
                 );
             })
@@ -98,6 +98,8 @@ function renderRoute(date_str, route_str) {
         .await(function (err, transactions, segments, gps_periods, out_periods, lines, stops, seg_geo) {
             if (err) throw err;
 
+            map.stops(stops.by_id);
+            
             var date_start = new Date(date_str + " 00:00");
             var date_end = new Date(date_start);
             date_end.setDate(date_start.getDate() + 1);
@@ -107,11 +109,18 @@ function renderRoute(date_str, route_str) {
             context.time_domain = d3.extent(transactions.total.values, d => d.datetime);
             
             if  (context.switch_state == 'marey') {
-                showMarey(segments.get(context.direction), stops.get(context.route_str).get(context.direction), context.time_domain);
+                showMarey(segments.get(context.direction), stops.by_route_dir.get(context.route_str).get(context.direction), context.time_domain);
             }
 
             var total_container = d3.select("#route-total-container");
             total_container.selectAll("*").remove();
+
+            console.log(transactions);
+            var totalMaxY = d3.max(transactions.total.bar_data, d => d.value);
+            var vehiclesMaxY = d3.max(transactions.by_vehicles, veh => d3.max(veh.bar_data, d => d.value));
+
+            console.log(totalMaxY);
+            console.log(vehiclesMaxY);
 
             total_container
                 .datum(transactions.total)
@@ -121,8 +130,8 @@ function renderRoute(date_str, route_str) {
                 .each(function(d) {
                     var chart = barchart()
                         .date_extent(date_extent)
-                        .maxY(200)
-                        .data(d)
+                        .maxY(totalMaxY)
+                        .data(d.bar_data)
                         .brush_enabled(true)
                         .brush_extent(context.time_domain)
                         .onBrushChange(function(time_extent){
@@ -153,7 +162,8 @@ function renderRoute(date_str, route_str) {
                 .each(function(d){
                     var chart = barchart()
                         .date_extent(date_extent)
-                        .data(d)
+                        .data(d.bar_data)
+                        .maxY(vehiclesMaxY)
                         .periods(gps_periods.get(d.key))
                         .out_periods(out_periods.get(route_str + "-" + d.key));
                     d3.select(this).call(chart);

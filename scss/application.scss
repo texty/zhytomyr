@@ -82,7 +82,34 @@ h6.header-badge {
 }
 
 #map {
-  height: 100%
+  height: 100%;
+
+  .info.legend {
+    width: 140px;
+    height: 100px;
+
+    svg {
+      width: 140px;
+      height: 100px;
+
+      text {
+        fill: #777;
+        text-anchor: end;
+
+        &.value {
+          text-anchor: start;
+        }
+      }
+
+    }
+    //
+    //.bar {
+    //  width: 20px;
+    //  height: 20px;
+    //  border: 1px solid white;
+    //}
+
+  }
 }
 
 .summary-header{

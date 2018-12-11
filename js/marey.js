@@ -160,7 +160,7 @@ function marey() {
 
 
                 var x_ = 0;
-                var legend_data = [50, 20, 10, 5, 1].map(function(d){
+                var legend_data = [40, 20, 10, 5, 1].map(function(d){
                     var r = radiusScale(d);
                     var res = {r: r, x: x_, orig: d};
                     x_ += r * 2 + 2;

@@ -9,13 +9,11 @@ function barchart() {
         , brush_enabled
         , brush
         , brush_extent
+        , interactive_summary = false
         , on_change_counter = 0
         , dispatcher = d3.dispatch("change")
     // , xFormat = d3.format("0.2f")
         ;
-
-    var colorScale = d3.scaleOrdinal()
-        .range(d3.schemeCategory10);
 
     function my(selection) {
         selection.each(function(d) {
@@ -25,7 +23,7 @@ function barchart() {
             var mh = +svg.attr("data-min-height");
             var h = Math.max(mh, w * (+svg.attr("data-aspect-ratio")));
 
-            var margin = {top: 5, right: 5, bottom: 15, left: 5}
+            var margin = {top: 5, right: 5, bottom: 15, left: 25}
                 , width = w - margin.left - margin.right
                 , height = h - margin.top - margin.bottom
                 , g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -36,27 +34,23 @@ function barchart() {
                 .range([0, width]);
 
             var y = d3.scaleLinear()
-                .range([height, 0]);
+                .range([height, 0])                .nice();
 
-            // x.domain(d3.extent(data.values, function(d) {return d.datetime}));
-            x.domain(date_extent.map(function(d){return new Date(d)}));
-
-            data.values.forEach(v => v.date_f = time_floor(v.datetime));
-
-            var bar_data = d3.nest()
-                .key(d => d.date_f)
-                .entries(data.values);
-
-            bar_data.forEach(d => d.date_f = new Date(d.key));
-
+            x.domain(date_extent.map(d => new Date(d)));
             y.domain([0, maxY]);
-
 
             var xAxis = d3.axisBottom(x)
                 .tickSizeOuter(0)
                 .tickSizeInner(-height)
                 .tickPadding(5)
                 .tickFormat(dateFormat);
+
+            var yAxis = d3.axisLeft(y)
+                .tickSizeOuter(15)
+                .tickSizeInner(15)
+                .tickPadding(5)
+                .ticks(1)
+                .tickFormat(d3.format(".0f"))
 
             if (periods) {
                 g.append("g")
@@ -84,22 +78,25 @@ function barchart() {
                     .attr("height", y(0) - y(5))
             }
 
-
             g.append("g")
                 .attr("class", "axis axis--x")
                 .attr("transform", "translate(0," + height + ")")
                 .call(xAxis);
 
+            g.append("g")
+                .attr("class", "axis axis--y")
+                .attr("transform", "translate(0, 0)")
+                .call(yAxis);
 
             g.selectAll("rect.bar")
-                .data(bar_data)
+                .data(data)
                 .enter()
                 .append("rect")
                 .attr("class", "bar")
                 .attr("x", d => x(d.date_f))
-                .attr("y", d => y(d.values.length))
+                .attr("y", d => y(d.value))
                 .attr("width", 2)
-                .attr("height", d => y(0) - y(d.values.length));
+                .attr("height", d => y(0) - y(d.value));
 
             if (brush_enabled) {
                 var brush = d3.brushX()
@@ -138,8 +135,6 @@ function barchart() {
                         dispatcher.call("change", this, sx);
                     }
                 }
-                
-
             }
 
             return my;
@@ -193,6 +188,12 @@ function barchart() {
     my.brush_extent = function(value) {
         if (!arguments.length) return brush_extent;
         brush_extent = value;
+        return my;
+    };
+    
+    my.interactive_summary = function(value) {
+        if (!arguments.length) return interactive_summary;
+        interactive_summary = value;
         return my;
     };
 

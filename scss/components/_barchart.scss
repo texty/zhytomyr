@@ -42,6 +42,17 @@
       path {stroke: none}
     }
 
+
+    .axis--y {
+      line, path {
+        stroke: gray;
+      }
+
+      path {stroke: none}
+
+      text {text-anchor: end}
+    }
+
     rect.bar {
       fill: $color1;
       stroke: none;

@@ -26,6 +26,12 @@ p {
       stroke-dasharray: 2,2; }
     .vehicle-card-container svg .axis--x path {
       stroke: none; }
+    .vehicle-card-container svg .axis--y line, .vehicle-card-container svg .axis--y path {
+      stroke: gray; }
+    .vehicle-card-container svg .axis--y path {
+      stroke: none; }
+    .vehicle-card-container svg .axis--y text {
+      text-anchor: end; }
     .vehicle-card-container svg rect.bar {
       fill: #4a2366;
       stroke: none; }
@@ -190,6 +196,17 @@ h6.header-badge {
 
 #map {
   height: 100%; }
+  #map .info.legend {
+    width: 140px;
+    height: 100px; }
+    #map .info.legend svg {
+      width: 140px;
+      height: 100px; }
+      #map .info.legend svg text {
+        fill: #777;
+        text-anchor: end; }
+        #map .info.legend svg text.value {
+          text-anchor: start; }
 
 .summary-header {
   text-transform: uppercase;

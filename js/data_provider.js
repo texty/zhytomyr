@@ -35,14 +35,12 @@ var data_provider = (function() {
         return module.cache_xhr(d3.csv, 'data/' + date_str + "/routes/" +
                                 route_str + "/transactions.csv", function(transactions){
 
-            transactions.forEach(function(d){
-                d.datetime = new Date(d.datetime);
-                // d.date_f = time_floor(d.datetime);
-            });
+            transactions.forEach(d => d.datetime = new Date(d.datetime))
 
             var result = {
                 total: {
                     values: transactions,
+                    bar_data: toBarData(transactions, time_floor),
                     summary: calcSummary(transactions)
                 }
             };
@@ -52,11 +50,38 @@ var data_provider = (function() {
                 .entries(transactions);
 
             by_vehicles.sort((a,b) => b.values.length - a.values.length);
-            by_vehicles.forEach(d => d.summary = calcSummary(d.values));
+            by_vehicles.forEach(function(d){ 
+                d.summary = calcSummary(d.values);
+                d.bar_data = toBarData(d.values, time_floor);
+            });
+            
             result.by_vehicles = by_vehicles;
 
             return result;
         }, cb);
+        
+        
+        function toBarData(values, time_aggr_fun) {
+            values.forEach(function(d){
+                d.date_f = time_aggr_fun(new Date(d.datetime));
+            });
+
+            var bar_data = d3.nest()
+                .key(d => d.date_f)
+                .rollup(leaves => leaves.length)
+                .entries(values);
+
+            bar_data.forEach(d => d.date_f = new Date(d.key));
+
+            return bar_data;
+        }
+
+        function time_floor(date) {
+            const band = 10;
+
+            date = moment(date);
+            return date.minute(Math.floor(date.minute() / band) * band).second(0).toDate();
+        }
     };
 
 
@@ -91,10 +116,16 @@ var data_provider = (function() {
                 r.priority = +r.priority;
             });
 
-            return d3.nest()
-                .key(d => d.route)
-                .key(d => d.direction)
-                .map(stops);
+            return {
+                by_route_dir: d3.nest()
+                    .key(d => d.route)
+                    .key(d => d.direction)
+                    .map(stops),
+
+                by_id: d3.nest()
+                    .key(d => d.id)
+                    .map(stops)
+            }
         }, cb);
     };
     
@@ -196,14 +227,6 @@ var data_provider = (function() {
         })
     };
     
-    //
-    // function time_floor(date) {
-    //     const band = 10;
-    //
-    //     date = moment(date);
-    //     return date.minute(Math.floor(date.minute() / band) * band).second(0).toDate();
-    // }
-
     return module;
 })();
 

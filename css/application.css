@@ -75,6 +75,8 @@ p {
     stroke-opacity: 0.1; }
   #marey-container svg text {
     fill: white; }
+  #marey-container svg .marey-tooltip {
+    text-anchor: middle; }
 
 #marey-legend-container circle {
   fill: #f6b033;

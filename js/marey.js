@@ -122,28 +122,63 @@ function marey() {
                 .data(data)
                 .enter()
                 .append("circle")
-                .attr('cy', function(d) {return y(d.fraction); })
-                .attr('cx', function(d) {return x(d.start_datetime)})
-                .attr('r', d => radiusScale(d.transactions));
+                .attr('cy', d => y(d.fraction))
+                .attr('cx', d => x(d.start_datetime))
+                .attr('r', d => radiusScale(d.transactions))
+
+                // .attr("data-tippy-content", d => d.transactions);
+
+            // tippy("#marey-svg circle")
+
+            var tooltip = g.append("text").attr("class", "marey-tooltip").classed("hidden", true);
+
+
 
             circle
                 .on('mouseenter', function(d){
-                    d3.select(this).style("fill-opacity", '1')
-                    console.log('over')
+                    d3.select(this).style("fill", 'darkred');
+
+                    // pp.style('stroke-opacity', dd => d.vehicle == dd.values[0].vehicle ? 1 : null);
+                    // circle.style('fill', dd => dd.vehicle == d.vehicle ? "darkred" : null);
+
+                    gY.selectAll("text")
+                        .style("fill", (dd, i) => stops_data[i].id == +d.stop_id ? 'darkorange' : null);
+
+                    tooltip.classed("hidden", false).text(d.transactions).attr("x", x(d.start_datetime)).attr("y", y(d.fraction) - 10)
                 })
                 .on("mouseleave", function(d){
-                    d3.select(this).style('fill-opacity', null);
+                    d3.select(this).style('fill', null);
+                    // pp.style('stroke-opacity', null);
+                    // circle.style('fill', null);
+                    gY.selectAll("text").style("fill", null);
+                    tooltip.classed("hidden", true);
                 })
                 .on('click', function(d){
                     console.log(d);
                 });
 
+            gY.selectAll("text")
+                .on("mouseenter", function(d, i){
+                    var stop_circles = circle
+                        .filter( dd => +dd.stop_id == +stops_data[i].id );
 
-            // pp
-            //     .on('mouseover', function(d){
-            //         pp.style('stroke-opacity', dd => d.values[0].vehicle == dd.values[0].vehicle ? 1 : 0.2)
-            //         circle.style('opacity', dd => dd.vehicle == d.values[0].vehicle ? 1 : 0.2)
-            //     });
+                    if (time_domain)
+                        stop_circles = stop_circles
+                            .filter( dd => dd.start_datetime >= time_domain[0] && dd.start_datetime <= time_domain[1] );
+
+                    stop_circles.style('fill', 'darkred');
+                    d3.select(this).style("fill", 'darkorange');
+
+                    tooltip.classed("hidden", false)
+                        .attr("x", width).attr("y", y(+stops_data[i].fraction))
+                        .text(d3.sum(stop_circles.data(), r => r.transactions))
+                        .attr("dy", '0.3em')
+                })
+                .on("mouseleave", function(d){
+                    circle.style('fill', null);
+                    d3.select(this).style("fill", null);
+                    tooltip.classed("hidden", true)
+                });
 
             // svg.call(zoom);
 

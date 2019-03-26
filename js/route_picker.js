@@ -48,8 +48,8 @@ function route_picker() {
 
                 var threshold = colorScale.domain()[1] / 3;
 
-                pills.style('background-color', d => colorScale(heatdata.get(d)));
-                pills.classed('light', d => heatdata.get(d) < threshold);
+                pills.style('background-color', d => colorScale(heatdata.get(d) | 0));
+                pills.classed('light', d => (heatdata.get(d) | 0) < threshold);
 
                 return my;
             };

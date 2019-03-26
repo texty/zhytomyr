@@ -42,6 +42,7 @@
       width: $block-w;
       height: $block-h;
       border: 4px solid transparent;
+      margin-right: -2px;
 
       position: relative;
       align-items: center;
@@ -59,7 +60,6 @@
       //padding-top: 0rem;
       border-radius: 0;
 
-      margin-right: -2px;
 
       &.invisible {
         cursor: inherit;

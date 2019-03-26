@@ -166,29 +166,29 @@ var data_provider = (function() {
     };
 
     
-    module.getDailySegments = function(cb) {
-        return module.cache_xhr(d3.csv, 'data/daily_segments.csv', function(segments){
-
-            segments = segments.map(function(s){
-                return {
-                    type: "Feature",
-                    geometry: JSON.parse(s.geometry),
-                    properties: {
-                        route: s.route,
-                        date: s.date,
-                        stop_id: s.stop_id,
-                        direction: s.direction,
-                        transactions: s.transactions
-                    }
-                };
-            });
-
-            return d3.nest()
-                .key(d => d.properties.date)
-                .key(d => d.properties.route)
-                .map(segments);
-        }, cb);
-    };
+    // module.getDailySegments = function(cb) {
+    //     return module.cache_xhr(d3.csv, 'data/daily_segments.csv', function(segments){
+    //
+    //         segments = segments.map(function(s){
+    //             return {
+    //                 type: "Feature",
+    //                 geometry: JSON.parse(s.geometry),
+    //                 properties: {
+    //                     route: s.route,
+    //                     date: s.date,
+    //                     stop_id: s.stop_id,
+    //                     direction: s.direction,
+    //                     transactions: s.transactions
+    //                 }
+    //             };
+    //         });
+    //
+    //         return d3.nest()
+    //             .key(d => d.properties.date)
+    //             .key(d => d.properties.route)
+    //             .map(segments);
+    //     }, cb);
+    // };
 
 
     module.getSegmentGeometries = function(cb) {

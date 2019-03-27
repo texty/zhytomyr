@@ -178,26 +178,27 @@ h6.header-badge {
   }
 }
 
+$share-btn-size: 2.1em;
 
 .share-btn {
-  color: #bdbdbd;
+  color: white;
   i {
     margin: 25px 25px 25px 25px;
     cursor: pointer;
-    width: 1.85em;
-    height: 1.85em;
+    width: $share-btn-size;
+    height: $share-btn-size;
     border: 1px solid #bdbdbd;
     border-radius: 50%;
     text-align: center;
     vertical-align: middle;
-    padding: 15px;
-    font-size: 2.5em;
+    padding: $share-btn-size/4;
+    font-size: 3em !important;
   }
 
   &:hover {
-    color: $main-text;
+    color: #dafb70;
     i {
-      border-color: $main-text;
+      border-color: #dafb70;
     }
   }
 }
@@ -226,6 +227,47 @@ h6.header-badge {
       }
     }
   }
+}
+
+.first-screen {
+  height: 100vh;
+  background: $color1 url('../image/back.png');
+  background-size: contain;
+  img.first-screen-cover {
+    max-height: 100vh;
+  }
+
+  .first-screen-content {
+    height: 100%;
+
+    h1 {
+      color: white;
+      font-size: 5em;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+
+      &.green {
+        color: #dafb70;
+        letter-spacing: 0.19em;
+      }
+    }
+
+    .header1 {
+      background: transparentize($color1, 0.2);
+    }
+
+    h2 {
+      color: white;
+      font-size: 1.7em;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+  }
+}
+
+.social-icons {
+  font-size: 0.5em;
 }
 
 //.header-block {

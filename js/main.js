@@ -6,7 +6,7 @@ var vehicle_card_template = Handlebars.compile($("#vehicle-card-template").html(
 var route_total_card_template = Handlebars.compile($("#route-total-card-template").html());
 
 var context = {
-    date_str: '2018-08-06',
+    date_str: '2019-01-31',
     route_str: '1',
     switch_state: 'marey',
     direction: '0',

@@ -1,16 +1,18 @@
 function calendar() {
 
     var heatdata = []
-        , date_extent = ['2019-01-01 00:00', '2019-01-31 00:00']
+        , date_extent = ['2018-12-20 00:00', '2019-01-31 00:00']
         , selected_date
         , on_change_counter = 0
         , dispatcher = d3.dispatch("change")
+        , current_month_number = -10
         ;
 
-    var month_str = ['січень', 'лютий', 'березень', 'квітень', 'травень', 'червень', 'липень', 'серпень'
-        , 'вересень', 'листопад', 'грудень'];
+    // var month_str = ['січень', 'лютий', 'березень', 'квітень', 'травень', 'червень', 'липень', 'серпень'
+    //     , 'вересень', 'жовтень', 'листопад', 'грудень'];
 
     var date_format = d3.timeFormat("%Y-%m-%d");
+    var month_caption_format = d3.timeFormat("%B %Y");
 
     function my(selection) {
         selection.each(function(d) {
@@ -35,11 +37,15 @@ function calendar() {
                 addOneDay(cur_date);
             }
 
+            console.log(all_days)
+
             var months = d3.nest()
-                .key(d => d.date.getMonth())
+                .key(d => moment(d.date).format('YYYY-MM-01'))
                 .entries(all_days);
 
-            months.forEach(m => m.month_str = month_str[+m.key]);
+            console.log(months)
+
+            months.forEach(m => m.month_str = month_caption_format(new Date(m.key)));
 
             months.forEach(function(m){
                 m.first_date = new Date(m.values[0].date);
@@ -57,45 +63,8 @@ function calendar() {
                 m.values = new_values;
             });
 
-            //todo
-            var curdata = months[0];
-
-            container.select(".month-title").text(curdata.month_str);
-
-            container
-                .select(".month-grid .days")
-                .selectAll("div.box")
-                .data(curdata.values)
-                .enter()
-                .append("div")
-                .attr("class", "box")
-                .classed("active", d => d.active)
-                .text(d => d.visible ? d.date.getDate() : '');
-
-            var active_boxes = container
-                .select(".month-grid .days")
-                .selectAll("div.box.active");
-
-            active_boxes.on("click", function(d) {
-                d3.event.preventDefault();
-                my.selected_date(date_format(d.date));
-            });
-
-
-            // var colorScale = d3.scaleLinear()
-            //     .interpolate(d3.interpolateHcl)
-            //     // .range([d3.rgb("#F0EEF2"), d3.rgb('#4a2366')]);
-            //     .range([d3.rgb("#F4DEED"), d3.rgb('#4a2366')]);
-
-            // #4a2366
-
             var colorScale = d3.scaleSequential(d3.interpolatePurples)
-
-            colorScale
                 .domain([0, d3.max(heatdata.values())]);
-
-            active_boxes
-                .style('background-color', d => colorScale(heatdata.get(date_format(d.date))));
 
 
             my.selected_date = function(date_str) {
@@ -104,12 +73,85 @@ function calendar() {
                 if (date_str != selected_date) {
                     selected_date = date_str;
 
+                    var active_boxes = container
+                        .select(".month-grid .days")
+                        .selectAll("div.box.active");
+
                     active_boxes.classed("selected", d => d.active && date_format(d.date) == selected_date);
                     dispatcher.call("change", this, selected_date);
                 }
 
                 return my;
             };
+
+            my.current_month_number = function(val) {
+                if (!arguments.length) return current_month_number;
+
+                if (val != current_month_number) {
+                    current_month_number = val;
+
+                    console.log(curdata);
+                    var curdata = months[current_month_number];
+
+                    container.select(".month-title").text(curdata.month_str);
+
+                    container
+                        .select(".month-grid .days")
+                        .selectAll("div.box")
+                        .remove()
+
+                    var box_join = container
+                        .select(".month-grid .days")
+                        .selectAll("div.box")
+                        .data(curdata.values);
+
+                    var box_enter = box_join
+                        .enter()
+                        .append("div")
+                        .attr("class", "box")
+                        .classed("active", d => d.active)
+                        .text(d => d.visible ? d.date.getDate() : '');
+
+                    var active_boxes = container
+                        .select(".month-grid .days")
+                        .selectAll("div.box.active");
+
+                    active_boxes.on("click", function(d) {
+                        d3.event.preventDefault();
+                        my.selected_date(date_format(d.date));
+                    });
+
+                    active_boxes
+                        .style('background-color', d => colorScale(heatdata.get(date_format(d.date))));
+
+                    active_boxes
+                        .filter((d, i) => i == 0)
+                        .each(function(d) {
+                            my.selected_date(date_format(d.date));
+                        });
+
+                    // var colorScale = d3.scaleLinear()
+                    //     .interpolate(d3.interpolateHcl)
+                    //     // .range([d3.rgb("#F0EEF2"), d3.rgb('#4a2366')]);
+                    //     .range([d3.rgb("#F4DEED"), d3.rgb('#4a2366')]);
+
+                    // #4a2366
+
+                }
+
+                return my;
+            };
+
+            my.current_month_number(0);
+
+
+            container.select(".btn-month-prev").on("click", function() {
+                my.current_month_number(Math.max(current_month_number - 1, 0));
+            });
+
+            container.select(".btn-month-next").on("click", function() {
+                my.current_month_number(Math.min(current_month_number + 1, months.length - 1));
+            });
 
             return my;
         });

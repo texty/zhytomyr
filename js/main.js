@@ -6,7 +6,7 @@ var vehicle_card_template = Handlebars.compile($("#vehicle-card-template").html(
 var route_total_card_template = Handlebars.compile($("#route-total-card-template").html());
 
 var context = {
-    date_str: '2019-01-31',
+    // date_str: '2018-12-31',
     route_str: '1',
     switch_state: 'marey',
     direction: '0',
@@ -42,7 +42,7 @@ data_provider.getHeatmap(function(err, heatmap){
 
     d3.select("body").call(calendar_control);
 
-    calendar_control.selected_date(context.date_str);
+    // calendar_control.selected_date(context.date_str);
 });
 
 route_picker.route(context.route_str, true);

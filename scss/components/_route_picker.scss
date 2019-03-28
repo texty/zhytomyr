@@ -1,7 +1,17 @@
 
 #route-pills {
-  margin-top:1.5em;
-  margin-bottom:1em;
+  //margin-top:1.5em;
+  margin-bottom: 1em;
+
+  h4 {
+    margin: 0;
+    font-size: 1em;
+    color: #6c757d;
+  }
+
+  ul.nav.nav-pills {
+    margin-bottom: 0.7em;
+  }
 
   .nav-link.active, .show > .nav-link {
     //background-color: $color1;

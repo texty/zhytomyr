@@ -13,8 +13,36 @@ var context = {
     time_extent: null
 };
 
-var all_routes = ['1', '2', '3', '4', '4A', '5A','6', '7', '7A', '8', '9', '10', '12', '15A', '53', '53A',
-    '91', 'H2', 'H3', 'H4', 'H5', 'H7'];
+var all_routes = [
+    {type: "troll", name: 'Тролейбус', routes: [
+        {key: '1'},
+        {key: '2'},
+        {key: '3'},
+        {key: '4'},
+        {key: '4A'},
+        {key: '5A'},
+        {key: '6'},
+        {key: '7'},
+        {key: '7A'},
+        {key: '8'},
+        {key: '9'},
+        {key: '10'},
+        {key: '12'},
+        {key: '15A'},
+        {key: 'H2'},
+        {key: 'H3'},
+        {key: 'H4'},
+        {key: 'H5'},
+        {key: 'H7'}
+    ]},
+    {type: "bus", name: "Автобус", routes: [
+        {key: '53'},
+        {key: '53A'}
+    ]},
+    {type: "tram", name: "Трамвай", routes: [
+        {key: '91', name: 'Трам'}
+    ]}
+];
 
 
 var route_picker = route_picker()

@@ -138,8 +138,13 @@ p {
     color: #777; }
 
 #route-pills {
-  margin-top: 1.5em;
   margin-bottom: 1em; }
+  #route-pills h4 {
+    margin: 0;
+    font-size: 1em;
+    color: #6c757d; }
+  #route-pills ul.nav.nav-pills {
+    margin-bottom: 0.7em; }
   #route-pills .nav-item {
     font-size: 1em;
     text-align: center; }

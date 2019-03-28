@@ -11,18 +11,31 @@ function route_picker() {
         selection.each(function(d) {
             var container = d3.select(this);
             
-            var pills = container
-                .selectAll("li")
+            var groups = container
+                .selectAll("div.transport-group")
                 .data(data)
+                .enter()
+                .append("div")
+                .attr("class", "transport-group");
+
+            groups
+                .append("h4")
+                .text(d => d.name);
+
+            var pills = groups
+                .append("ul")
+                .attr("class", "nav nav-pills justify-content-left")
+                .selectAll("li")
+                .data(d => d.routes)
                 .enter()
                 .append("li")
                 .attr("class", "nav-item")
                 .append("a")
                 .attr("class", "nav-link")
                 .attr("href", "#")
-                .text(d => d)
+                .text(d => d.name || d.key)
                 .on("click", function(d) {
-                    my.route(d);
+                    my.route(d.key);
                     d3.event.preventDefault();
                 });
 
@@ -31,7 +44,7 @@ function route_picker() {
 
                 if (route != active_route) {
                     active_route = route;
-                    pills.classed("active", d => d == active_route);
+                    pills.classed("active", d => d.key == active_route);
                  
                     if (!no_change) dispatcher.call("change", this, active_route);
                 }
@@ -48,8 +61,8 @@ function route_picker() {
 
                 var threshold = colorScale.domain()[1] / 3;
 
-                pills.style('background-color', d => colorScale(heatdata.get(d) | 0));
-                pills.classed('light', d => (heatdata.get(d) | 0) < threshold);
+                pills.style('background-color', d => colorScale(heatdata.get(d.key) | 0));
+                pills.classed('light', d => (heatdata.get(d.key) | 0) < threshold);
 
                 return my;
             };

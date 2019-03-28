@@ -127,10 +127,11 @@ function renderRoute(date_str, route_str) {
             if (err) throw err;
 
             map.stops(stops.by_id);
-            
-            var date_start = new Date(date_str + " 00:00");
-            var date_end = new Date(date_start);
-            date_end.setDate(date_start.getDate() + 1);
+
+            var moment_start = moment(date_str).add({hours: 4});
+
+            var date_start = moment_start.toDate();
+            var date_end = moment_start.add({days: 1}).toDate();
 
             var date_extent = [date_start, date_end];
 

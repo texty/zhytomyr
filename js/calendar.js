@@ -1,7 +1,7 @@
 function calendar() {
 
     var heatdata = []
-        , date_extent = ['2018-12-10 00:00', '2019-01-31 00:00']
+        , date_extent = ['2018-11-29 00:00', '2019-01-31 00:00']
         , selected_date
         , on_change_counter = 0
         , dispatcher = d3.dispatch("change")

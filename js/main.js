@@ -15,42 +15,44 @@ var context = {
 
 var all_routes = [
     {type: "troll", name: 'Тролейбус', routes: [
-        {key: '1'},
-        {key: '2'},
-        {key: '3'},
-        {key: '4'},
-        {key: '4A'},
-        {key: '5A'},
-        {key: '6'},
-        {key: '7'},
-        {key: '7A'},
-        {key: '8'},
-        {key: '9'},
-        {key: '10'},
-        {key: '12'},
-        {key: '15A'},
-        {key: 'H2'},
-        {key: 'H3'},
-        {key: 'H4'},
-        {key: 'H5'},
-        {key: 'H7'}
+        {key: '1', name: "Тролейбус 1"},
+        {key: '2', name: "Тролейбус 2"},
+        {key: '3', name: "Тролейбус 3"},
+        {key: '4', name: "Тролейбус 4"},
+        {key: '4A', name: "Тролейбус 4А"},
+        {key: '5A', name: "Тролейбус 5А"},
+        {key: '6', name: "Тролейбус 6"},
+        {key: '7', name: "Тролейбус 7"},
+        {key: '7A', name: "Тролейбус 7А"},
+        {key: '8', name: "Тролейбус 8"},
+        {key: '9', name: "Тролейбус 9"},
+        {key: '10', name: "Тролейбус 10"},
+        {key: '12', name: "Тролейбус 12"},
+        {key: '15A', name: "Тролейбус 15А"},
+        {key: 'H2', name: "Тролейбус Н2"},
+        {key: 'H3', name: "Тролейбус Н3"},
+        {key: 'H4', name: "Тролейбус Н4"},
+        {key: 'H5', name: "Тролейбус Н5"},
+        {key: 'H7', name: "Тролейбус Н7"}
     ]},
     {type: "bus", name: "Автобус", routes: [
-        {key: '53'},
-        {key: '53A'}
+        {key: '53', name: "Автобус 53"},
+        {key: '53A', name: "Автобус 53А"}
     ]},
     {type: "tram", name: "Трамвай", routes: [
-        {key: '91', name: 'Трам'}
+        {key: '91', picker_name: 'Трам', name: "Трамвай"}
     ]}
 ];
 
+var route_obj_by_route_key = {};
+all_routes.forEach(rt => rt.routes.forEach(r => route_obj_by_route_key[r.key] = {type: rt, route: r}));
 
 var route_picker = route_picker()
     .data(all_routes)
     .onChange(function(route_str){
         context.route_str = route_str;
 
-        d3.selectAll(".route-number-text").text(context.route_str);
+        d3.selectAll(".route-number-text").text(route_obj_by_route_key[context.route_str].route.name);
         renderRoute(context.date_str, context.route_str);
     });
 
@@ -73,7 +75,7 @@ data_provider.getHeatmap(function(err, heatmap){
     // calendar_control.selected_date(context.date_str);
 });
 
-route_picker.route(context.route_str, true);
+route_picker.route(route_obj_by_route_key[context.route_str].route.name, true);
 
 
 d3.select("#change-chart")

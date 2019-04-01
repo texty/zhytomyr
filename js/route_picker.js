@@ -4,7 +4,7 @@ function route_picker() {
         , heatdata
         , on_change_counter = 0
         , dispatcher = d3.dispatch("change")
-        , active_route
+        , route_key
         ;
     
     function my(selection) {
@@ -33,7 +33,7 @@ function route_picker() {
                 .append("a")
                 .attr("class", "nav-link")
                 .attr("href", "#")
-                .text(d => d.name || d.key)
+                .text(d => d.picker_name || d.key)
                 .on("click", function(d) {
                     my.route(d.key);
                     d3.event.preventDefault();
@@ -42,11 +42,11 @@ function route_picker() {
             my.route = function(route, no_change) {
                 if (!arguments.length) return route;
 
-                if (route != active_route) {
-                    active_route = route;
-                    pills.classed("active", d => d.key == active_route);
+                if (route != route_key) {
+                    route_key = route;
+                    pills.classed("active", d => d.key == route_key);
                  
-                    if (!no_change) dispatcher.call("change", this, active_route);
+                    if (!no_change) dispatcher.call("change", this, route_key);
                 }
 
                 return my;

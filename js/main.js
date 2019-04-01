@@ -78,16 +78,21 @@ data_provider.getHeatmap(function(err, heatmap){
 route_picker.route(route_obj_by_route_key[context.route_str].route.name, true);
 
 
-d3.select("#change-chart")
-    .on('click', function(){
-        context.switch_state = context.switch_state == 'map' ? 'marey' : 'map';
+var marey_map_pills = d3.select("#marey-map-pills")
+    .selectAll("a.nav-link")
+    .datum(function(){return d3.select(this).attr('data-chart')})
+    .on("click", function(chart){
+        d3.event.preventDefault();
+
+        if (chart == context.switch_state) return;
+
+        context.switch_state = chart;
 
         d3.select(".marey-container").classed('hidden', context.switch_state != 'marey');
         d3.select("#map-container").classed('hidden', context.switch_state != 'map');
         if (context.switch_state == 'map') map.invalidateSize().fitBounds();
 
-        d3.select(this).text(context.switch_state == 'map' ? 'Дивитись графік руху по зупинках' : 'Дивитись карту');
-
+        marey_map_pills.classed('active', dd => dd == context.switch_state);
     });
 
 var direction_pills = d3.select('#marey-direction')

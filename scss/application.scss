@@ -23,6 +23,7 @@ body {
 
 h3 {
   margin-top: 2em;
+  margin-bottom: 1em;
 }
 
 svg {
@@ -118,7 +119,13 @@ h6.header-badge {
 
 .summary-header{
   text-transform: uppercase;
-  font-weight: 100;
+  //font-weight: 100;
+  font-size: 1rem;
+  margin-top: 0.7em;
+
+  .route-number-text {
+    font-weight: 800;
+  }
 }
 
 .bg-gps {
@@ -171,6 +178,9 @@ h6.header-badge {
     }
   }
 
+  .share-btn {
+    color: #ccc;
+  }
 
   img.partner-logo {
     height: 70px;
@@ -317,6 +327,7 @@ $share-btn-size: 2.1em;
 
 .main-text-container {
   margin-top: 6em;
+  padding-bottom: 4em;
 }
 
 #lead-container {

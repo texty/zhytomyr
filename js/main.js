@@ -40,7 +40,7 @@ var all_routes = [
         {key: '53A', name: "Автобус 53А"}
     ]},
     {type: "tram", name: "Трамвай", routes: [
-        {key: '91', picker_name: 'Трам', name: "Трамвай"}
+        {key: '91', picker_name: 'Т', name: "Трамвай"}
     ]}
 ];
 

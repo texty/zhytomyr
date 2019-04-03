@@ -81,19 +81,7 @@ route_picker.route(route_obj_by_route_key[context.route_str].route.name, true);
 var marey_map_pills = d3.select("#marey-map-pills")
     .selectAll("a.nav-link")
     .datum(function(){return d3.select(this).attr('data-chart')})
-    .on("click", function(chart){
-        d3.event.preventDefault();
 
-        if (chart == context.switch_state) return;
-
-        context.switch_state = chart;
-
-        d3.select(".marey-container").classed('hidden', context.switch_state != 'marey');
-        d3.select("#map-container").classed('hidden', context.switch_state != 'map');
-        if (context.switch_state == 'map') map.invalidateSize().fitBounds();
-
-        marey_map_pills.classed('active', dd => dd == context.switch_state);
-    });
 
 var direction_pills = d3.select('#marey-direction')
     .selectAll('a.nav-link')
@@ -191,29 +179,7 @@ function renderRoute(date_str, route_str) {
                     d3.select(this).call(chart);
                 });
 
-
-            var small_multiples_container = d3.select("#small-multiples");
-            small_multiples_container.selectAll('*').remove();
-
-
-            var vehicle_container = small_multiples_container.selectAll('div.vehicle-card-container')
-                .data(transactions.by_vehicles, function(d){return d.key})
-                .enter()
-                .append("div")
-                .attr("class", "vehicle-card-container col-12")
-                .html(d => vehicle_card_template(d));
-
-            vehicle_container.select("svg")
-                .each(function(d){
-                    var chart = barchart()
-                        .date_extent(date_extent)
-                        .data(d.bar_data)
-                        .maxY(vehiclesMaxY)
-                        .periods(gps_periods.get(d.key))
-                        .out_periods(out_periods.get(route_str + "-" + d.key));
-                    d3.select(this).call(chart);
-                });
-            
+            drawSmallMultiples();
 
             var line = lines.get(route_str);
             map.showLine(line);
@@ -226,8 +192,50 @@ function renderRoute(date_str, route_str) {
             map.drawSegments(map_segments);
 
             map.invalidateSize().fitBounds();
+
+            marey_map_pills.on("click", function(chart){
+                d3.event.preventDefault();
+
+                if (chart == context.switch_state) return;
+
+                context.switch_state = chart;
+
+                d3.select(".marey-container").classed('hidden', context.switch_state != 'marey');
+                d3.select("#map-container").classed('hidden', context.switch_state != 'map');
+                d3.select(".by-vehicle-container").classed('hidden', context.switch_state != 'by-vehicle');
+
+                if (context.switch_state == 'map') map.invalidateSize().fitBounds();
+                if (context.switch_state == 'by-vehicle') drawSmallMultiples();
+
+                marey_map_pills.classed('active', dd => dd == context.switch_state);
+            });
+
+
+            function drawSmallMultiples() {
+                var small_multiples_container = d3.select("#small-multiples");
+                small_multiples_container.selectAll('*').remove();
+
+                var vehicle_container = small_multiples_container.selectAll('div.vehicle-card-container')
+                    .data(transactions.by_vehicles, function(d){return d.key})
+                    .enter()
+                    .append("div")
+                    .attr("class", "vehicle-card-container col-12")
+                    .html(d => vehicle_card_template(d));
+
+                vehicle_container.select("svg")
+                    .each(function(d){
+                        var chart = barchart()
+                            .date_extent(date_extent)
+                            .data(d.bar_data)
+                            .maxY(vehiclesMaxY)
+                            .periods(gps_periods.get(d.key))
+                            .out_periods(out_periods.get(route_str + "-" + d.key));
+                        d3.select(this).call(chart);
+                    });
+            }
         });
 }
+
 
 function showMarey(segments, stops, time_domain) {
     var svg = d3.select("#marey-svg");

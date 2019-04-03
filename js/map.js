@@ -24,7 +24,8 @@ var map = (function () {
     mmapp = L.map('map', {
         maxZoom: 18,
         minZoom: 11,
-        maxBounds: L.latLngBounds(L.latLng(50.07, 28.29), L.latLng(50.47, 29.01))
+        maxBounds: L.latLngBounds(L.latLng(50.07, 28.29), L.latLng(50.47, 29.01)),
+        scrollWheelZoom: false
     }).setView([50.2227664, 28.673982], 12);
 
     L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {

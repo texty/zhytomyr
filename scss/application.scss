@@ -50,6 +50,8 @@ a.dotted {
   background-color: $color1;
   color: $white-color;
 
+  padding-bottom: 3em;
+
   text {
     fill: $white-color;
   }
@@ -87,7 +89,7 @@ h6.header-badge {
 }
 
 #map {
-  height: 100%;
+  height: 100vh;
 
   .info.legend {
     width: 140px;
@@ -152,8 +154,7 @@ h6.header-badge {
 }
 
 #map-container {
-  width: 100%;
-  height: 100vh;
+
 }
 //
 //
@@ -251,6 +252,10 @@ $share-btn-size: 2.1em;
 
       color: white;
       border: 4px solid transparent;
+
+      border-right: 4px solid white;
+      border-top: 4px solid white;
+      border-left: 4px solid white;
 
       &.active {
         //background: #f6b033;

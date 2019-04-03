@@ -95,7 +95,7 @@ function barchart() {
                 .attr("class", "bar")
                 .attr("x", d => x(d.date_f))
                 .attr("y", d => y(d.value))
-                .attr("width", 2)
+                .attr("width", 4)
                 .attr("height", d => y(0) - y(d.value));
 
             if (brush_enabled) {

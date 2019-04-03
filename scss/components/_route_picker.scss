@@ -3,12 +3,6 @@
   //margin-top:1.5em;
   margin-bottom: 1em;
 
-  h4 {
-    margin: 0;
-    font-size: 1em;
-    color: #6c757d;
-  }
-
   ul.nav.nav-pills {
     margin-bottom: 0.7em;
   }
@@ -90,6 +84,17 @@
 
 
 
+    }
+  }
+
+  .transport-group {
+    margin-right: 1em;
+    float: left;
+
+    h4 {
+      margin: 0 0 0.2em;
+      font-size: 1em;
+      color: #6c757d;
     }
   }
 }

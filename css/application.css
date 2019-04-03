@@ -11,7 +11,7 @@ p {
     margin-bottom: 0;
     padding-top: 0.7em; }
   .vehicle-card-container span.tracker {
-    color: #4a2366;
+    color: white;
     font-weight: 600; }
   .vehicle-card-container .transactions {
     font-weight: bold; }
@@ -33,7 +33,7 @@ p {
     .vehicle-card-container svg .axis--y text {
       text-anchor: end; }
     .vehicle-card-container svg rect.bar {
-      fill: #4a2366;
+      fill: white;
       stroke: none; }
     .vehicle-card-container svg rect.period {
       fill: #dbff79;
@@ -139,10 +139,6 @@ p {
 
 #route-pills {
   margin-bottom: 1em; }
-  #route-pills h4 {
-    margin: 0;
-    font-size: 1em;
-    color: #6c757d; }
   #route-pills ul.nav.nav-pills {
     margin-bottom: 0.7em; }
   #route-pills .nav-item {
@@ -159,6 +155,13 @@ p {
         border-color: #f6b033; }
       #route-pills .nav-item .nav-link.light {
         color: #4a2366; }
+  #route-pills .transport-group {
+    margin-right: 1em;
+    float: left; }
+    #route-pills .transport-group h4 {
+      margin: 0 0 0.2em;
+      font-size: 1em;
+      color: #6c757d; }
 
 body {
   color: #424242; }
@@ -181,7 +184,8 @@ a.dotted {
 
 .right-side {
   background-color: #4a2366;
-  color: white; }
+  color: white;
+  padding-bottom: 3em; }
   .right-side text {
     fill: white; }
 
@@ -206,7 +210,7 @@ h6.header-badge {
     background-color: white; }
 
 #map {
-  height: 100%; }
+  height: 100vh; }
   #map .info.legend {
     width: 140px;
     height: 100px; }
@@ -242,10 +246,6 @@ h6.header-badge {
 #marey-container {
   margin-top: 3em;
   margin-bottom: 3em; }
-
-#map-container {
-  width: 100%;
-  height: 100vh; }
 
 .footer h3 {
   font-weight: 800;
@@ -301,7 +301,10 @@ h6.header-badge {
 #marey-map-pills .nav-item a.nav-link {
   background: #4a2366;
   color: white;
-  border: 4px solid transparent; }
+  border: 4px solid transparent;
+  border-right: 4px solid white;
+  border-top: 4px solid white;
+  border-left: 4px solid white; }
   #marey-map-pills .nav-item a.nav-link.active {
     border-color: #f6b033; }
 

@@ -9,12 +9,13 @@ p {
   margin-bottom: 1.5em; }
   .vehicle-card-container p {
     margin-bottom: 0;
-    padding-top: 0.7em; }
-  .vehicle-card-container span.tracker {
-    color: white;
-    font-weight: 600; }
-  .vehicle-card-container .transactions {
+    padding-top: 0;
+    line-height: 1; }
+  .vehicle-card-container .tracker, .vehicle-card-container .transactions, .vehicle-card-container .cash, .vehicle-card-container .pro, .vehicle-card-container .bank {
     font-weight: bold; }
+  .vehicle-card-container .left {
+    min-width: 12em;
+    display: inline-block; }
   .vehicle-card-container span {
     font-size: 0.85em; }
   .vehicle-card-container svg {
@@ -185,6 +186,7 @@ a.dotted {
 .right-side {
   background-color: #4a2366;
   color: white;
+  padding-top: 3em;
   padding-bottom: 3em; }
   .right-side text {
     fill: white; }
@@ -227,8 +229,9 @@ h6.header-badge {
   text-transform: uppercase;
   font-size: 1rem;
   margin-top: 0.7em; }
-  .summary-header .route-number-text {
-    font-weight: 800; }
+
+.route-number-text {
+  font-weight: 800; }
 
 .bg-gps {
   background-color: #dbff79; }
@@ -238,6 +241,10 @@ h6.header-badge {
 
 .hidden {
   display: none !important; }
+
+.invisible {
+  position: absolute;
+  z-index: -999; }
 
 .marey-container {
   background: #4a2366;

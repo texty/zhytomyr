@@ -147,26 +147,24 @@
     <div class="row">
         <div class="col-12">
             <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h4 class="summary-header">Оплата проїзду на маршруті: <span class="route-number-text">Тролейбус 1</span></h4>
+                <div class="hidden-on-by-vehicle">
+                    <div class="row">
+                        <div class="col-9">Оберіть слайдером інтервал часу</div>
+                        <div class="col-3">
+                            <span class="summary-header route-number-text">Тролейбус 1</span>
+                        </div>
+                    </div>
+
+                    <div id="route-total-container" class="row vehicle-card-container">
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-6"></div>
-                    <div class="col-6">Оберіть слайдером інтервал часу</div>
-                </div>
 
-                <div id="route-total-container" class="row vehicle-card-container">
-                </div>
-
-
-                <div id="map-container" class="hidden">
-                    <div class="col-12">Товщина лінії на карті пропорційна кількості квитків, які були придбані між двома найближчими зупинками. У місцях, де пасажири сідають на громадський транспорт, лінія, як правило, товста. І навпаки, в місцях, де пасажири переважно виходять або проїжджають повз, лінія тонка.
+                <div id="map-container" class="row hidden">
+                    <div class="col-12 col-md-6">Товщина лінії на карті пропорційна кількості квитків, які були придбані між двома найближчими зупинками. У місцях, де пасажири сідають на громадський транспорт, лінія, як правило, товста. І навпаки, в місцях, де пасажири переважно виходять або проїжджають повз, лінія тонка.
                     </div>
 
-                    <div id="map"></div>
+                    <div class="col-12" id="map"></div>
                 </div>
 
                 <div class="row marey-container">
@@ -313,28 +311,36 @@
 
 <script type="text/x-handlebars-template" id="vehicle-card-template">
     <div class="row">
-        <div class="col-12">
-            <span>Бортовий номер </span><span class="tracker">{{key}}</span>
-            <span>; Квитків продано: </span><span class="transactions">{{summary.total}}</span>
-            <span>; Готівкою: </span><span class="cash">{{summary.cash_pc}}</span>
-            <span>; Проїзним квитком: </span><span class="pro">{{summary.pro_pc}}</span>
-            <span>; Банківською карткою: </span><span class="bank">{{summary.bank_pc}}</span>
+        <div class="col-9">
+            <svg width="100%" data-min-height="65" height="65"></svg>
         </div>
 
-        <div class="col-12">
-            <svg width="100%" data-min-height="65" height="65"></svg>
+        <div class="col-3">
+            <p><span class="left">Бортовий номер </span><span class="tracker">{{key}}</span></p>
+            <p><span class="left">Квитків продано: </span><span class="transactions">{{summary.total}}</span></p>
+            <p><span class="left">Готівкою: </span><span class="cash">{{summary.cash_pc}}</span></p>
+            <p><span class="left">Проїзним квитком: </span><span class="pro">{{summary.pro_pc}}</span></p>
+            <p><span class="left">Банківською карткою: </span><span class="bank">{{summary.bank_pc}}</span></p>
         </div>
     </div>
 </script>
 
-
 <script type="text/x-handlebars-template" id="route-total-card-template">
-    <div class="col-12">
-        <span>Квитків продано: </span><span class="transactions">{{summary.total}}</span>
-        <span>; Готівкою: </span><span class="cash">{{summary.cash_pc}}</span>
-        <span>; Проїзним квитком: </span><span class="pro">{{summary.pro_pc}}</span>
-        <span>; Банківською карткою: </span><span class="bank">{{summary.bank_pc}}</span>
+    <div class="col-9">
+        <svg width="100%" data-min-height="65" height="65" class="dark-bg"></svg>
     </div>
+
+    <div class="col-3">
+        <!--<h4 class="summary-header">Оплата проїзду на маршруті</h4>-->
+        <div class="route-total-summary"></div>
+    </div>
+</script>
+
+<script type="text/x-handlebars-template" id="route-total-summary-template">
+    <p><span class="left">Квитків продано: </span><span class="transactions">{{summary.total}}</span></p>
+    <p><span class="left">Готівкою: </span><span class="cash">{{summary.cash_pc}}</span></p>
+    <p><span class="left">Проїзним квитком: </span><span class="pro">{{summary.pro_pc}}</span></p>
+    <p><span class="left">Банківською карткою: </span><span class="bank">{{summary.bank_pc}}</span></p>
 </script>
 
 <script type="text/x-handlebars-template" id="map-legend-template">

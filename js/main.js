@@ -5,6 +5,8 @@ var inpc = d3.format(".0%");
 var vehicle_card_template = Handlebars.compile($("#vehicle-card-template").html());
 var route_total_card_template = Handlebars.compile($("#route-total-card-template").html());
 
+var route_total_summary_template = Handlebars.compile($("#route-total-summary-template").html());
+
 var context = {
     // date_str: '2018-12-31',
     route_str: '1',
@@ -136,49 +138,13 @@ function renderRoute(date_str, route_str) {
                 showMarey(segments.get(context.direction), stops.by_route_dir.get(context.route_str).get(context.direction), context.time_domain);
             }
 
-            var total_container = d3.select("#route-total-container");
-            total_container.selectAll("*").remove();
-
-            console.log(transactions);
             var totalMaxY = d3.max(transactions.total.bar_data, d => d.value);
             var vehiclesMaxY = d3.max(transactions.by_vehicles, veh => d3.max(veh.bar_data, d => d.value));
 
             console.log(totalMaxY);
             console.log(vehiclesMaxY);
 
-            var total_barchart_container = total_container
-                .datum(transactions.total)
-                .append("div").attr("class", "col-12")
-                .append("div").attr("class", "row");
-
-            var total_summary_container = total_barchart_container
-                .append("div").attr("class", "route-total-summary")
-                .html(d => route_total_card_template(d));
-                
-            total_barchart_container.append("div").attr("class", "col-12")
-                .append("svg")
-                .attr("width", "100%").attr("data-min-height", 65).attr("height", 65).attr("class", "dark-bg")
-                .each(function(d) {
-                    var chart = barchart()
-                        .date_extent(date_extent)
-                        .maxY(totalMaxY)
-                        .data(d.bar_data)
-                        .brush_enabled(true)
-                        .brush_extent(context.time_domain)
-                        .onBrushChange(function(time_extent){
-                            var map_segments = segmetsForMap(segments, seg_geo, context, time_extent);
-                            map.drawSegments(map_segments);
-
-                            var points = pointsForMap(transactions, time_extent);
-                            map.drawPoints(points);
-
-                            context.marey_chart.time_domain(time_extent);
-
-                            renderSummary(transactions, time_extent, total_summary_container)
-                        });
-                    d3.select(this).call(chart);
-                });
-
+            drawTotalChart();
             drawSmallMultiples();
 
             var line = lines.get(route_str);
@@ -204,11 +170,49 @@ function renderRoute(date_str, route_str) {
                 d3.select("#map-container").classed('hidden', context.switch_state != 'map');
                 d3.select(".by-vehicle-container").classed('hidden', context.switch_state != 'by-vehicle');
 
+                d3.select(".hidden-on-by-vehicle").classed('invisible', context.switch_state === 'by-vehicle');
+
                 if (context.switch_state == 'map') map.invalidateSize().fitBounds();
                 if (context.switch_state == 'by-vehicle') drawSmallMultiples();
 
                 marey_map_pills.classed('active', dd => dd == context.switch_state);
             });
+
+            function drawTotalChart() {
+                var total_container = d3.select("#route-total-container");
+                total_container.selectAll("*").remove();
+
+                var total_barchart_container = total_container
+                    .datum(transactions.total)
+                    .html(d => route_total_card_template(d));
+
+                var total_summary_container = total_barchart_container
+                    .select(".route-total-summary")
+                    .html(d => route_total_summary_template(d));
+
+                total_barchart_container
+                    .select("svg")
+                    .each(function(d) {
+                        var chart = barchart()
+                            .date_extent(date_extent)
+                            .maxY(totalMaxY)
+                            .data(d.bar_data)
+                            .brush_enabled(true)
+                            .brush_extent(context.time_domain)
+                            .onBrushChange(function(time_extent){
+                                var map_segments = segmetsForMap(segments, seg_geo, context, time_extent);
+                                map.drawSegments(map_segments);
+
+                                var points = pointsForMap(transactions, time_extent);
+                                map.drawPoints(points);
+
+                                context.marey_chart.time_domain(time_extent);
+
+                                renderSummary(transactions, time_extent, total_summary_container)
+                            });
+                        d3.select(this).call(chart);
+                    });
+            }
 
 
             function drawSmallMultiples() {
@@ -318,5 +322,5 @@ function renderSummary(transactions, time_extent, container) {
 
     var summary = calcSummary(tr);
     
-    container.html(route_total_card_template({summary: summary}));
+    container.html(route_total_summary_template({summary: summary}));
 }

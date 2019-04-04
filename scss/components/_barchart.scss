@@ -1,17 +1,19 @@
 .vehicle-card-container {
   p {
     margin-bottom: 0;
-    padding-top: 0.7em;
+    padding-top: 0;
+    line-height: 1;
   }
 
-  span.tracker {
-    color: white;
-    font-weight:600;
-  }
-
-  .transactions {
+  .tracker, .transactions, .cash, .pro, .bank {
     font-weight: bold;
   }
+
+  .left {
+    min-width: 12em;
+    display:inline-block;
+  }
+
 
   span {
     font-size: 0.85em;

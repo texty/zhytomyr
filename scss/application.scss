@@ -71,6 +71,7 @@ a.dotted {
 h6.header-badge {
   display: inline-block;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 
   padding-left: 0.2em;
   padding-right: 0.2em;
@@ -121,19 +122,22 @@ h6.header-badge {
 }
 
 .summary-header{
-  text-transform: uppercase;
+  //text-transform: uppercase;
   //font-weight: 100;
   font-size: 1rem;
   margin-top: 0.7em;
+  letter-spacing: 0.05em;
 
 }
 
 .route-number-text {
   font-weight: 800;
+  color: $color4;
 }
 
 .bg-gps {
-  background-color: #dbff79;
+  background-color: $color4;
+  color: $color1;
 }
 
 .bg-out-of-route {
@@ -152,7 +156,7 @@ h6.header-badge {
 .marey-container {
   background: $color1;
   color: white;
-  //padding-top: 2em;
+  margin-top: 3em;
 }
 
 #marey-container {
@@ -218,9 +222,9 @@ $share-btn-size: 2.1em;
   }
 
   &:hover {
-    color: #dafb70;
+    color: $color4;
     i {
-      border-color: #dafb70;
+      border-color: $color4;
     }
   }
 }
@@ -249,6 +253,8 @@ $share-btn-size: 2.1em;
       }
     }
   }
+
+  flex-wrap: nowrap;
 }
 
 #marey-map-pills {
@@ -291,7 +297,7 @@ $share-btn-size: 2.1em;
       letter-spacing: 0.06em;
 
       &.green {
-        color: #dafb70;
+        color: $color4;
         letter-spacing: 0.19em;
       }
     }

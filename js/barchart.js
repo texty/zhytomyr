@@ -42,7 +42,7 @@ function barchart() {
             var xAxis = d3.axisBottom(x)
                 .tickSizeOuter(0)
                 .tickSizeInner(-height)
-                .tickPadding(5)
+                .tickPadding(15)
                 .tickFormat(dateFormat);
 
             var yAxis = d3.axisLeft(y)

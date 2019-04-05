@@ -6,7 +6,8 @@
   }
 
   .tracker, .transactions, .cash, .pro, .bank {
-    font-weight: bold;
+    font-weight: 600;
+    color: $color4;
   }
 
   .left {
@@ -16,7 +17,8 @@
 
 
   span {
-    font-size: 0.85em;
+    font-size: 11px;
+    letter-spacing: 0.05em;
   }
 
   svg {
@@ -53,6 +55,8 @@
       path {stroke: none}
 
       text {text-anchor: end}
+
+      .tick {display: none}
     }
 
     rect.bar {
@@ -61,7 +65,7 @@
     }
 
     rect.period {
-      fill: #dbff79;
+      fill: $color4;
       stroke: none;
     }
 
@@ -80,7 +84,7 @@
       shape-rendering: geometricPrecision;
       fill: "#666";
       fill-opacity: 0.8;
-      stroke: #000;
+      stroke: $white-color;
       stroke-width: 1.5;
       cursor: ew-resize;
     }

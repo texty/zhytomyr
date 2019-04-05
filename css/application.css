@@ -12,12 +12,14 @@ p {
     padding-top: 0;
     line-height: 1; }
   .vehicle-card-container .tracker, .vehicle-card-container .transactions, .vehicle-card-container .cash, .vehicle-card-container .pro, .vehicle-card-container .bank {
-    font-weight: bold; }
+    font-weight: 600;
+    color: #f6b033; }
   .vehicle-card-container .left {
     min-width: 12em;
     display: inline-block; }
   .vehicle-card-container span {
-    font-size: 0.85em; }
+    font-size: 11px;
+    letter-spacing: 0.05em; }
   .vehicle-card-container svg {
     shape-rendering: crispEdges;
     overflow: visible !important; }
@@ -33,11 +35,13 @@ p {
       stroke: none; }
     .vehicle-card-container svg .axis--y text {
       text-anchor: end; }
+    .vehicle-card-container svg .axis--y .tick {
+      display: none; }
     .vehicle-card-container svg rect.bar {
       fill: white;
       stroke: none; }
     .vehicle-card-container svg rect.period {
-      fill: #dbff79;
+      fill: #f6b033;
       stroke: none; }
     .vehicle-card-container svg rect.out-period {
       fill: #bbbbbb;
@@ -48,7 +52,7 @@ p {
       shape-rendering: geometricPrecision;
       fill: "#666";
       fill-opacity: 0.8;
-      stroke: #000;
+      stroke: white;
       stroke-width: 1.5;
       cursor: ew-resize; }
 
@@ -60,7 +64,9 @@ p {
   #marey-container svg .axis--x text {
     text-anchor: center; }
   #marey-container svg .axis--y text {
-    text-anchor: start; }
+    text-anchor: start;
+    font-size: 11px;
+    letter-spacing: 0.05em; }
   #marey-container svg circle {
     fill: #f6b033;
     fill-opacity: 0.5;
@@ -157,7 +163,7 @@ p {
       #route-pills .nav-item .nav-link.light {
         color: #4a2366; }
   #route-pills .transport-group {
-    margin-right: 1em;
+    margin-right: 2.5em;
     float: left; }
     #route-pills .transport-group h4 {
       margin: 0 0 0.2em;
@@ -201,6 +207,7 @@ a.dotted {
 h6.header-badge {
   display: inline-block;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
   padding-left: 0.2em;
   padding-right: 0.2em;
   margin-right: 0.3em;
@@ -227,15 +234,17 @@ h6.header-badge {
           text-anchor: start; }
 
 .summary-header {
-  text-transform: uppercase;
   font-size: 1rem;
-  margin-top: 0.7em; }
+  margin-top: 0.7em;
+  letter-spacing: 0.05em; }
 
 .route-number-text {
-  font-weight: 800; }
+  font-weight: 800;
+  color: #f6b033; }
 
 .bg-gps {
-  background-color: #dbff79; }
+  background-color: #f6b033;
+  color: #4a2366; }
 
 .bg-out-of-route {
   background-color: #bbb; }
@@ -249,7 +258,8 @@ h6.header-badge {
 
 .marey-container {
   background: #4a2366;
-  color: white; }
+  color: white;
+  margin-top: 3em; }
 
 #marey-container {
   margin-top: 3em;
@@ -288,9 +298,9 @@ h6.header-badge {
     padding: 0.525em;
     font-size: 3em !important; }
   .share-btn:hover {
-    color: #dafb70; }
+    color: #f6b033; }
     .share-btn:hover i {
-      border-color: #dafb70; }
+      border-color: #f6b033; }
 
 .nav-pills .nav-link {
   border-radius: 0 !important; }
@@ -299,12 +309,14 @@ h6.header-badge {
   display: flex;
   flex-direction: row; }
 
-#marey-direction .nav-item a.nav-link {
-  background: white;
-  color: #4a2366;
-  border: 4px solid transparent; }
-  #marey-direction .nav-item a.nav-link.active {
-    border-color: #f6b033; }
+#marey-direction {
+  flex-wrap: nowrap; }
+  #marey-direction .nav-item a.nav-link {
+    background: white;
+    color: #4a2366;
+    border: 4px solid transparent; }
+    #marey-direction .nav-item a.nav-link.active {
+      border-color: #f6b033; }
 
 #marey-map-pills .nav-item a.nav-link {
   background: #4a2366;
@@ -331,7 +343,7 @@ h6.header-badge {
       font-weight: 600;
       letter-spacing: 0.06em; }
       .first-screen .first-screen-content h1.green {
-        color: #dafb70;
+        color: #f6b033;
         letter-spacing: 0.19em; }
     .first-screen .first-screen-content .header1 {
       background: rgba(74, 35, 102, 0.8); }

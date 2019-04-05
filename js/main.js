@@ -77,7 +77,7 @@ data_provider.getHeatmap(function(err, heatmap){
     // calendar_control.selected_date(context.date_str);
 });
 
-route_picker.route(route_obj_by_route_key[context.route_str].route.name, true);
+route_picker.route(context.route_str, true);
 
 
 var marey_map_pills = d3.select("#marey-map-pills")
@@ -132,8 +132,9 @@ function renderRoute(date_str, route_str) {
 
             var date_extent = [date_start, date_end];
 
-            context.time_domain = d3.extent(transactions.total.values, d => d.datetime);
-            
+            // context.time_domain = d3.extent(transactions.total.values, d => d.datetime);
+            context.time_domain = date_extent;
+
             if  (context.switch_state == 'marey') {
                 showMarey(segments.get(context.direction), stops.by_route_dir.get(context.route_str).get(context.direction), context.time_domain);
             }

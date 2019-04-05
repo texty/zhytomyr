@@ -3,6 +3,10 @@
   margin-top: 0.1em;
   margin-bottom: 1em;
 
+  $box-width: 2.5em;
+  $box-height: 2.5em;
+  $border-width: 2px;
+
   ul.nav.nav-pills {
     margin-bottom: 0.7em;
   }
@@ -19,13 +23,9 @@
 
     text-align: center;
 
-    $box-width: 2.5em;
-    $box-height: 2.5em;
-    $border-width: 2px;
-
     .nav-link {
-      width: 2.5em;
-      height: 2.5em;
+      width: $box-width;
+      height: $box-height;
       padding: 0.3rem 0 0;
 
       color: $white;
@@ -92,7 +92,7 @@
   }
 
   .transport-group {
-    margin-right: 1em;
+    margin-right: $box_width;
     float: left;
 
     h4 {

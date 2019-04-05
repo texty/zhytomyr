@@ -100,7 +100,7 @@ p {
   .heatmap-calendar .month-year-title .month-title {
     vertical-align: middle; }
 .heatmap-calendar .month-grid {
-  width: 14em;
+  width: 17.5em;
   margin-top: 0.5em;
   margin-bottom: 1em; }
   .heatmap-calendar .month-grid .days, .heatmap-calendar .month-grid .day-names-row {
@@ -109,10 +109,11 @@ p {
   .heatmap-calendar .month-grid .days {
     margin-bottom: 0.5em; }
   .heatmap-calendar .month-grid .box {
-    width: 2em;
-    height: 2em;
-    border: 4px solid transparent;
-    margin-right: -2px;
+    width: 2.5em;
+    height: 2.5em;
+    border: 2px solid transparent;
+    margin-right: -1px;
+    padding: 0.3rem 0 0;
     position: relative;
     align-items: center;
     justify-content: center;
@@ -131,7 +132,6 @@ p {
       cursor: pointer; }
     .heatmap-calendar .month-grid .days .box.selected {
       color: #fff;
-      font-weight: 800;
       background-color: #4a2366;
       border-color: #f6b033;
       z-index: 999; }
@@ -139,6 +139,7 @@ p {
     color: #777; }
 
 #route-pills {
+  margin-top: 0.1em;
   margin-bottom: 1em; }
   #route-pills ul.nav.nav-pills {
     margin-bottom: 0.7em; }
@@ -146,13 +147,12 @@ p {
     font-size: 1em;
     text-align: center; }
     #route-pills .nav-item .nav-link {
-      width: 3em;
+      width: 2.5em;
       height: 2.5em;
-      padding: 0.2rem 0 0;
+      padding: 0.3rem 0 0;
       color: #fff;
-      border: 4px solid transparent; }
+      border: 2px solid transparent; }
       #route-pills .nav-item .nav-link.active {
-        font-weight: 800;
         border-color: #f6b033; }
       #route-pills .nav-item .nav-link.light {
         color: #4a2366; }
@@ -162,7 +162,8 @@ p {
     #route-pills .transport-group h4 {
       margin: 0 0 0.2em;
       font-size: 1em;
-      color: #6c757d; }
+      color: #6c757d;
+      line-height: 1.8em; }
 
 body {
   color: #424242; }

@@ -142,7 +142,7 @@ function calendar() {
                 return my;
             };
 
-            my.current_month_number(1);
+            my.current_month_number(0);
 
 
             container.select(".btn-month-prev").on("click", function() {

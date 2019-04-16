@@ -15,7 +15,7 @@ p {
     font-weight: 600;
     color: #f6b033; }
   .vehicle-card-container .left {
-    min-width: 12em;
+    min-width: 13em;
     display: inline-block; }
   .vehicle-card-container span {
     font-size: 11px;
@@ -363,5 +363,8 @@ h6.header-badge {
 #lead-container {
   margin-top: 5em;
   margin-bottom: 5em; }
+
+.left-margin-near-slider {
+  padding-left: 2em; }
 
 /*# sourceMappingURL=application.css.map */

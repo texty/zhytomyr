@@ -8,11 +8,13 @@
   .tracker, .transactions, .cash, .pro, .bank {
     font-weight: 600;
     color: $color4;
+    //display:inline-block;
+    //min-width: 5em;
   }
 
   .left {
-    min-width: 12em;
-    display:inline-block;
+    min-width: 13em;
+    display: inline-block;
   }
 
 

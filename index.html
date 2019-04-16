@@ -152,7 +152,7 @@
                         <div class="col-9">
                             <h6 class="header-badge dark-bg">Оберіть слайдером інтервал часу</h6>
                         </div>
-                        <div class="col-3 d-flex justify-content-end">
+                        <div class="col-3 d-flex left-margin-near-slider">
                             <span class="summary-header route-number-text">Тролейбус 1</span>
                         </div>
                     </div>
@@ -172,16 +172,18 @@
                 <div class="row marey-container">
                     <div class="col-12"><h6 class="header-badge dark-bg">Оберіть напрямок руху</h6></div>
 
-                    <div class="col-5 marey-direction-legend-container">
-                        <ul class="nav nav-pills" id="marey-direction">
-                            <li class="nav-item"><a class="nav-link active forward" href="#" data-direction="0">Прямий</a></li>
-                            <li class="nav-item"><a class="nav-link backward" href="#" data-direction="1">Зворотній</a></li>
-                        </ul>
-                        <div id="marey-legend-container"></div>
-                    </div>
+                    <div class="col-12 col-lg-9 d-flex">
+                        <div class="marey-direction-legend-container">
+                            <ul class="nav nav-pills" id="marey-direction">
+                                <li class="nav-item"><a class="nav-link active forward" href="#" data-direction="0">Прямий</a></li>
+                                <li class="nav-item"><a class="nav-link backward" href="#" data-direction="1">Зворотній</a></li>
+                            </ul>
+                            <div id="marey-legend-container"></div>
+                        </div>
 
-                    <div class="col-4">
-                        <p>На горизонтальній осі графіка зображений час доби, на вертикальній — зупики на рейсі. Одна лінія відповідає одному рейсу від початку до кінця маршруту. Кожне коло — це одна зупинка. Його розмір пропорційний кількості проданих квитків.</p>
+                        <div>
+                            <p>На горизонтальній осі графіка зображений час доби, на вертикальній — зупики на рейсі. Одна лінія відповідає одному рейсу від початку до кінця маршруту. Кожне коло — це одна зупинка. Його розмір пропорційний кількості проданих квитків.</p>
+                        </div>
                     </div>
 
                     <div class="col-12" id="marey-container">
@@ -316,7 +318,7 @@
             <svg width="100%" data-min-height="65" height="65"></svg>
         </div>
 
-        <div class="col-3">
+        <div class="col-3 left-margin-near-slider">
             <p><span class="left">Бортовий номер </span><span class="tracker">{{key}}</span></p>
             <p><span class="left">Квитків продано: </span><span class="transactions">{{summary.total}}</span></p>
             <p><span class="left">Готівкою: </span><span class="cash">{{summary.cash_pc}}</span></p>
@@ -331,7 +333,7 @@
         <svg width="100%" data-min-height="65" height="65" class="dark-bg"></svg>
     </div>
 
-    <div class="col-3 d-flex justify-content-end">
+    <div class="col-3 d-flex left-margin-near-slider">
         <!--<h4 class="summary-header">Оплата проїзду на маршруті</h4>-->
         <div class="route-total-summary"></div>
     </div>

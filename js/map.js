@@ -46,7 +46,7 @@ var map = (function () {
             .attr("transform", "translate(70, 15)");
 
         var dir = g.selectAll("g.dir")
-            .data(["Прямий", "Зворотній"])
+            .data(["Прямий", "Зворотний"])
             .enter()
             .append("g")
             .attr("class", "dir")
@@ -166,7 +166,7 @@ var map = (function () {
 
     function renderSegmentPopup(feature) {
         return "<span>Зупинка: " + stops.get(+feature.properties.stop_id)[0].name + "</span>" +
-            "<br><span>Напрямок: " + (feature.properties.direction=="0" ? "Прямий" : "Зворотній") + "</span>" +
+            "<br><span>Напрямок: " + (feature.properties.direction=="0" ? "Прямий" : "Зворотний") + "</span>" +
             "<br><span>Квитків за обраний період: " + feature.properties.transactions + "</span>"
     }
 

@@ -28,8 +28,8 @@ var map = (function () {
         scrollWheelZoom: false
     }).setView([50.2227664, 28.673982], 12);
 
-    L.tileLayer('http://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
-        attribution: 'Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL. ',
+    L.tileLayer('https://tiles.openstreetmap.org.ua/tile/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright/">OpenStreetMap</a> contributors, <a href="http://opendatacommons.org/licenses/odbl/">ODbL</a>',
         id: 'background'
     }).addTo(mmapp);
 
